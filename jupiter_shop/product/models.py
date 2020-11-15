@@ -1,6 +1,6 @@
 from django.db import models
 
-from Store.models import Store
+from store.models import Store
 
 
 

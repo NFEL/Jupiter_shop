@@ -12,7 +12,7 @@ class Store(models.Model):
     store_name = models.CharField('نام نمایشی',max_length=30)
     is_verified = models.BooleanField('رسمی',default=False)
 
-    class class Meta:
+    class Meta:
         db_table = 'Store'
         managed = True
         verbose_name = 'Store'
