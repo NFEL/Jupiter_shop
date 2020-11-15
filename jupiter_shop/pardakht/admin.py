@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import user , social , payment , purchase , order
+
+
+admin.site.register(user)
+admin.site.register(social)
+admin.site.register(payment)
+admin.site.register(purchase)
+admin.site.register(order)
+
