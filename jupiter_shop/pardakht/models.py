@@ -1,10 +1,11 @@
 from django.db import models
-from ../user.models import user
 
-class purchase(models.Model):
+from user.models import User
+
+class Purchase(models.Model):
 
     orders = models.TextField('درخواست ها',max_length=100)
-    user = models.ManyToManyField(user , on_delete = models.SET_DEFAULT , blank=True)
+    user = models.ManyToManyField(User , on_delete = models.SET_DEFAULT , blank=True)
 
     def __str__(self):
         return self.user
@@ -15,7 +16,7 @@ class purchase(models.Model):
 
 
 
-class payment(models.Model):
+class Payment(models.Model):
 
     payment_status = models.BooleanField(default=False)
     api_token = models.IntegerField(unique=True)
@@ -23,14 +24,14 @@ class payment(models.Model):
     def API():
         pass
 
-class social(models.Model):
+class Social(models.Model):
 
     jason_file = models.JSONField('متن')
 
-    user = models.ForeignKey(user, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
-    def use(request):
+    # def use(request):
 
-class order(models.Model):
+class Order(models.Model):
     id = models.IntegerField(unique=True , blank= False)

@@ -38,9 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # 'product',
-    # 'store',
-    # 'user'
+    'product',
+    'store',
+    'user',
+    'address',
     
 ]
 

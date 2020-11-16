@@ -1,8 +1,5 @@
 from django.db import models
 
-from store.models import Store
-
-
 
 class Category(models.Model):
     title = models.CharField('گروه',max_length=35)
@@ -30,6 +27,11 @@ class SubCategory(models.Model):
         managed = True
         verbose_name = 'ظبقه بندی'
         verbose_name_plural = 'ظبقه بندی ها'
+
+
+
+from store.models import Store
+
 
 
 class Product(models.Model):
