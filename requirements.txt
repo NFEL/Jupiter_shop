@@ -17,7 +17,7 @@ psycopg2==2.8.6
 ptyprocess==0.6.0
 Pygments==2.7.2
 pytz==2020.4
-sqlparse==4.3.2
+sqlparse== 0.4.1
 traitlets==5.0.5
 wcwidth==0.2.5
 whitenoise==5.2.0
