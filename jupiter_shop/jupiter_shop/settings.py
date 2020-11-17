@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import django_heroku
 from pathlib import Path
 import os
 
@@ -57,7 +58,8 @@ INSTALLED_APPS = [
     'store',
     'user',
     'address',
-    
+    'pardakht',
+
 ]
 
 MIDDLEWARE = [
@@ -68,11 +70,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # heroku conf
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # heroku conf
 ]
 
 # heroku conf
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 ROOT_URLCONF = 'jupiter_shop.urls'
@@ -147,5 +149,4 @@ USE_TZ = True
 
 
 # Configure Django App for Heroku.
-import django_heroku
 django_heroku.settings(locals())
