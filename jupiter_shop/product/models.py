@@ -2,8 +2,8 @@ from django.db import models
 
 
 class Category(models.Model):
-    title = models.CharField('گروه',max_length=35)
-    description = models.JSONField('توضیحات گروه بندی')
+    title = models.CharField('گروه',max_length=35,unique=True)
+    description = models.JSONField('توضیحات گروه بندی',blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -16,7 +16,8 @@ class Category(models.Model):
 
 class SubCategory(models.Model):
     title = models.CharField('طبقه بندی' , max_length=45)
-    description = models.JSONField('توضیحات طبقه بندی')
+    description = models.JSONField('توضیحات طبقه بندی',blank=True, null=True)
+    its_category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -33,7 +34,6 @@ class SubCategory(models.Model):
 from store.models import Store
 
 
-
 class Product(models.Model):
     name = models.CharField('محصولات', max_length=100)
     price = models.FloatField('قیمت محصول',null=True) ## اگر محصول ناموجود باشد -> null
@@ -41,7 +41,7 @@ class Product(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)    
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.SET_NULL,null=True) ## ممکن است در بعضی موارد محصول گروه بندی نشود
-    description = models.JSONField()
+    description = models.JSONField(blank=True, null=True)
 
 
     def __str__(self):

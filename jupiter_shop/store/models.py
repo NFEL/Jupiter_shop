@@ -8,7 +8,7 @@ from address.models import Address
 class Store(models.Model):
     categories = models.ManyToManyField(Category, verbose_name="Categories of Store")
     sub_categories = models.ManyToManyField(SubCategory, verbose_name="Sub Categories of Store")
-    address = models.ForeignKey(Address,on_delete=models.CASCADE)
+    address = models.OneToOneField(Address,on_delete=models.CASCADE)
     store_name = models.CharField('نام نمایشی',max_length=30)
     is_verified = models.BooleanField('رسمی',default=False)
 

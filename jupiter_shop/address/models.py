@@ -2,5 +2,9 @@ from django.db import models
 
 
 class Address(models.Model):
-    address=models.CharField(max_length=120)
-    city=models.CharField(max_length=30)
+    city = models.CharField(max_length=30)
+    detail = models.JSONField(blank=True, null=True)
+
+    def __str__(self):
+        return self.city
+
