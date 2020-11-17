@@ -1,0 +1,45 @@
+{
+    "title": "Title",
+    "subtitle": "Subtitle",
+    "headline": {
+        "text": "Headline"
+    },
+    "description": [{
+        "text": "Description Text 0"
+    }, {
+        "text": "Description Text 1"
+    }, {
+        "text": "Description Text 2"
+    }],
+    "additionalText": [{
+        "text": "Additional Text 0"
+    }, {
+        "text": "Additional Text 1"
+    }, {
+        "text": "Additional Text 2"
+    }],
+    "tagline": {
+        "text": "Tagline"
+    },
+    "teaserText": {
+        "text": "Teaser Text"
+    },
+    "callToAction": [{
+        "content": {
+            "text": "Click Here",
+            "style": {
+                "color": "rgb(0, 0, 255)"
+            }
+        },
+        "buttonColor": "rgb(240, 240, 240)",
+        "exitUrl": "https://google.com"
+    }],
+    "backgroundLandingPageUrl": "https://google.com",
+    "backgroundColor": "rgb(240, 240, 240)",
+    "primaryStyle": {
+        "color": "rgb(0, 0, 255)"
+    },
+    "secondaryStyle": {
+        "color": "rgb(0, 0, 255)"
+    }
+}

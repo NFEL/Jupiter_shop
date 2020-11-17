@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16">
+  <g fill="none" fill-rule="evenodd" transform="rotate(-90 8.5 7.5)">
+    <path stroke="#272727" stroke-opacity=".284" stroke-width="3.8" d="M2.306 1.472L8.5 7.666 14.334 1.474"/>
+    <path stroke="#272727" stroke-linecap="square" stroke-opacity=".28" stroke-width=".9" d="M13.587.152l2.109 1.986"/>
+    <path stroke="#272727" stroke-linecap="square" stroke-opacity=".28" stroke-width=".9" d="M3.015.127L.965 2.178"/>
+    <path stroke="#FFF" stroke-width="2" d="M2.306 1.472L8.5 7.666 14.334 1.474"/>
+  </g>
+</svg>
