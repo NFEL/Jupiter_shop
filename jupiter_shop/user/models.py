@@ -2,9 +2,6 @@ from django.db import models
 from address.models import Address
 
 
-
-
-
 class Profile(models.Model):
     ful_name = models.CharField(max_length=40, null=False)
     address = models.OneToOneField(
@@ -21,11 +18,11 @@ class User(models.Model):
     passcode = models.CharField(max_length=64, null=False)
     User_Type = [("A", 'user'), ("B", 'staff')]
     user_type = models.CharField(max_length=1, choices=User_Type, default="A")
-    profile = models.ForeignKey(Profile , on_delete=models.CASCADE , null = True , blank=True)
+    profile = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name='profile', null=True, blank=True)
 
     def __str__(self):
         if self.profile:
             return str(self.profile)
         else:
-            return str(f'{self.id} - {self.phonenumber}') 
-        
+            return str(f'{self.id} - {self.phonenumber}')
