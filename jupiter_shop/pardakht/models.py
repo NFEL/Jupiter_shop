@@ -6,10 +6,10 @@ from product.models import Product
 
 class Cart(models.Model):
     product = models.ManyToManyField(Product)
-    user = models.ManyToManyField(User, blank=True)
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
 
     def __str__(self):
-        return self.user
+        return str(self.user)
 
 
 class Payment(models.Model):

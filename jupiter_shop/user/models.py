@@ -2,14 +2,7 @@ from django.db import models
 from address.models import Address
 
 
-class User(models.Model):
-    phonenumber = models.IntegerField(null=False)
-    passcode = models.CharField(max_length=64, null=False)
-    User_Type = [("A", 'user'), ("B", 'staff')]
-    user_type = models.CharField(max_length=1, choices=User_Type, default="A")
 
-    def __str__(self):
-        return str(f'{self.id} - {self.phonenumber}')
 
 
 class Profile(models.Model):
@@ -21,3 +14,18 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.ful_name
+
+
+class User(models.Model):
+    phonenumber = models.IntegerField(null=False)
+    passcode = models.CharField(max_length=64, null=False)
+    User_Type = [("A", 'user'), ("B", 'staff')]
+    user_type = models.CharField(max_length=1, choices=User_Type, default="A")
+    profile = models.ForeignKey(Profile , on_delete=models.CASCADE , null = True , blank=True)
+
+    def __str__(self):
+        if self.profile:
+            return str(self.profile)
+        else:
+            return str(f'{self.id} - {self.phonenumber}') 
+        
