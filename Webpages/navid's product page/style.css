@@ -1,0 +1,225 @@
+@font-face {
+  font-family: iransans;
+  src: url("Iranian Sans.ttf");
+}
+@font-face {
+  font-family: fontawsome;
+  src: url("fontawesome-free-5.15.1-web/webfonts/fa-regular-400.ttf");
+}
+
+html, body{
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  font-family: iransans;
+}
+
+button{
+  border: 0;
+}
+
+div > .product:hover{
+  cursor: pointer;
+}
+.content{
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+  .brands_rows{
+    border-collapse: separate; 
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+
+      margin: 5px;
+      padding: 15px;
+      border-radius:15px 15px 15px 15px ;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* .brands_rows:hover{
+      box-shadow: inset 6px 24px 66px 0px rgba(0,0,0,0.5);
+    } */
+    
+.brands_rows> * + * {
+  margin-left: 10px;
+}
+
+    .brand_item_rect:hover{
+      box-shadow: 10px 10px 18px -15px rgba(0,0,0,0.75);
+      border-radius: 5%;
+    }
+
+  
+  .swipe_bt{
+      position: absolute;
+      width: auto;
+      height: 35px;
+      width: 50px;
+      margin-left: 5px;
+      margin-right: 5px;
+      text-align: center;
+  }
+
+  .swipe_r{
+      right: 3%;
+      
+      
+  }
+  .swipe_l{
+      left: 3%;
+  }
+
+  .img_brand{
+    height: 200px;
+    width: 200px;
+  }
+
+img{
+  align-content: center;
+  object-fit: contain;
+  width: 95%;
+  height: 95%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(0, 0, 0, 0);
+  /* border: 3px solid green; */
+  
+}
+
+
+
+.product-name{
+  grid-area: name;
+  font-weight: bold;
+  font-size: 20px;
+
+}
+.product-detail{
+  grid-area: detail;
+}
+.product-price{
+  grid-area: price;
+}
+.product-image{
+  max-width: 95%;
+  max-height: 95%;
+  grid-area: img;
+}
+
+.product-addToCart-bt{
+  transform: scale(0.8);
+  grid-area: addtocart;
+}
+
+.product {
+  display: grid;
+  grid-template-areas:
+  'img img'
+  'img img'
+  'img img'
+  'img img'
+  'name name'
+  'detail detail'
+  'detail detail'
+  'addtocart addtocart'
+   ;
+  grid-gap: 10px;
+
+  text-align: center;
+  overflow: hidden;
+  border-radius: 2%;
+  border: 1px #888888;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.product:hover{
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+/* border: 2px rgb(255, 255, 255); */
+}
+
+
+.product-empty {
+  background-image: url("add.png");
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: 35%;
+  opacity: 65%;
+  border-style: dashed;
+  border-width: 8px;
+  border-color: #9a9996;
+}
+.product-empty:hover{
+  filter: drop-shadow(0px 0px 10px gray);
+}
+
+.products_v2{
+  margin: 1.5%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  
+  grid-gap:1.6%;
+  grid-template-rows: max-content;
+}
+
+
+
+@media only screen and (max-width: 1500px){
+  .products_v2{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    vertical-align: middle;
+    grid-gap:2.5%;
+  }
+  .product-name{
+    font-size: 16px;
+  }
+}
+@media only screen and (max-width: 1000px){
+  .products_v2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    vertical-align: middle;
+    grid-gap:2.3%;
+  }
+
+  .product-name{
+    font-size: 18px;
+  }
+  
+}@media only screen and (max-width: 450px){
+  .products_v2{
+    display: grid;
+    grid-template-columns: 1fr;
+    vertical-align: middle;
+    padding: 0.6%;
+    grid-gap:3%;
+  }
+
+  .product-name{
+    font-size: 20px;
+  }
+}
+
+hr.style-1{
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+  margin-left:14px ;
+}
+
+hr.style-2{
+  overflow: visible;
+padding: 0;
+border: none;
+    border-top-color: currentcolor;
+    border-top-style: none;
+    border-top-width: medium;
+border-top: medium double #333;
+color: #333;
+text-align: center;
+}
