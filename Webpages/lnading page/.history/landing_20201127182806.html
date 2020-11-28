@@ -1,0 +1,62 @@
+
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+</head>
+<body>
+  <script>var flag = false;
+    function showuser()
+    {
+      if (flag == false){
+        flag = true;
+        document.getElementById("showuuser").style.visibility = "visible";
+        }
+        else{
+          flag = false;
+          document.getElementById("showuuser").style.visibility = "hidden";
+          }
+  
+    }</script>
+
+<link rel="stylesheet" href="landing.css">
+
+<div class="header"> 
+    
+<form action="">
+  <input type="search">
+  <i class="fa fa-search"></i>
+ 
+</form>
+
+<button  onclick="showuser()"  class="btn"><i class="fa fa-user"></i></button>
+<button class="btn2"><i class="fa fa-question"></i></button>
+
+</div>
+
+<div class="body">
+  <div id="showuuser"class="square" >
+  HI!!!
+  <button class="btn6"><i class="fa fa-cog"></i></button>
+  <button class="btn7"><i class="fa fa-sign-out"></i></button>
+  <button class="btn8"><i class="fa fa-user-plus"></i></button>
+  </div>
+  <div class="loader">
+  </div>
+  <span class="dot"></span>
+  <span class="dot2"></span>
+  <button class="btn10"><i class="fa fa-book"></i></button>
+  <span class="dot3"></span>
+  <button class="btn5"><i class="fa fa-desktop"></i></button>
+  <span class="dot4"></span>
+  <button class="btn11"><i class="fa fa-gift"></i></button>
+  </div>
+
+<div class="footer">
+  <button class="btn3"><i class="fa fa-user-friends"></i></button>
+  <button class="btn4"><i class="fa fa-shopping-cart"></i></button>
+</div>
+</body>
+</html>
