@@ -42,7 +42,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.SET_NULL,null=True) ## ممکن است در بعضی موارد محصول گروه بندی نشود
     description = models.JSONField(blank=True, null=True)
-
+    image = models
 
     def __str__(self):
         return f'{self.id} -> {self.name} [{self.stock_count} in stock]'
