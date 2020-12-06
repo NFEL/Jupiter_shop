@@ -18,6 +18,7 @@ class SubCategory(models.Model):
     title = models.CharField('طبقه بندی' , max_length=45)
     description = models.JSONField('توضیحات طبقه بندی',blank=True, null=True)
     its_category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    ##iimg
 
     def __str__(self):
         return self.title
@@ -39,10 +40,10 @@ class Product(models.Model):
     price = models.FloatField('قیمت محصول',null=True) ## اگر محصول ناموجود باشد -> null
     stock_count = models.IntegerField('مقدار باقیمانده',default= 0)
     store = models.ForeignKey(Store, on_delete=models.CASCADE)    
-    category = models.ForeignKey(Category,on_delete=models.CASCADE)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE,related_name='products')
     sub_category = models.ForeignKey(SubCategory, on_delete=models.SET_NULL,null=True) ## ممکن است در بعضی موارد محصول گروه بندی نشود
     description = models.JSONField(blank=True, null=True)
-    image = models
+#    image = models
 
     def __str__(self):
         return f'{self.id} -> {self.name} [{self.stock_count} in stock]'

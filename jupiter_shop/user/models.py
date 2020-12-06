@@ -1,5 +1,7 @@
 from django.db import models
 from address.models import Address
+# from django.contrib.auth.models import User
+
 
 
 class Profile(models.Model):
@@ -10,10 +12,13 @@ class Profile(models.Model):
     image = models.ImageField(upload_to='./res/profile_photo')
 
     def __str__(self):
-        return self.ful_name
-
+        if self.ful_name:
+            return self.ful_name
+        else:
+            return str(self.id)
 
 class User(models.Model):
+    # user_id = models.OneToOneField(User,on_delete=models.RESTRICT,primary_key=True)
     phonenumber = models.IntegerField(null=False)
     passcode = models.CharField(max_length=64, null=False)
     User_Type = [("A", 'user'), ("B", 'staff')]

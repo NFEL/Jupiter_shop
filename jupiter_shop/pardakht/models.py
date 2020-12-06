@@ -23,5 +23,6 @@ class Social(models.Model):
 
 
 class Purchases(models.Model):
-    user = models.ManyToManyField(User)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    # user = models.ManyToManyField(User)
     description = models.JSONField('ایتم های خریداری شده')

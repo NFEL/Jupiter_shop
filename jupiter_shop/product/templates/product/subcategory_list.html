@@ -1,0 +1,14 @@
+
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h2>Publishers</h2>
+    <ul>
+        {% for subcategory in object_list %}
+            <li> <a href="{% url 'products'%}?sub-category={{subcategory.title}}">{{ subcategory.title }}</a> </li>
+            {% comment %} <li> <a href="{% url 'sub-categories'%}?title={{category.title}}">{{ category.title }}</a> </li> {% endcomment %}
+
+        {% endfor %}
+    </ul> 
+{% endblock %}

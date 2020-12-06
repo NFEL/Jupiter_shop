@@ -22,4 +22,5 @@ def user_log(request, user_id):
     #     for p_obj in Profile.objects.filter(id = obj.get('profile_id')).values():
     #         data[obj.get('id')].update({'Profile': p_obj})
 
+
     return JsonResponse(data, safe=False)
