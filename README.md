@@ -76,7 +76,6 @@ Now all you have to do is to open a browser and navigate :
   - Navigate to ./Webpages to see UI elements so o
 
 ### Screen Shots
-- [Admin page](https://github.com/NFEL/Jupiter_shop/Screenshots/admin_page.png)
-- [Product Listview](https://github.com/NFEL/Jupiter_shop/Screenshots/simple_list_view.png)
-
+![Screenshot](Screenshots/admin_page.png)
+![Screenshot](Screenshots/simple_list_view.png)
 ## Possible deadline is ***(یکم دی ماه 1399)***
