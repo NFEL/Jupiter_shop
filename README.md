@@ -80,4 +80,4 @@ Now all you have to do is to open a browser and navigate :
 ![Screenshot](Screenshots/simple_list_view.png)
 ![Screenshot](Screenshots/products_list.png)
 ![Screenshot](Screenshots/product_list_overlay.png)
-## Possible deadline is ***(یکم دی ماه 1399)***
+## Possible deadline is ***(یکم بهمن ماه 1399)***
