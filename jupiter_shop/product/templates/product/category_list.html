@@ -1,11 +1,31 @@
-{% extends "base.html" %}
+{% extends "Webpages/landing page/landing.html" %}
 
 
-{% block content %}
+{% comment %} {% block content %}
     <h2>Publishers</h2>
     <ul>
         {% for category in object_list %}
             <li> <a href="{% url 'sub-categories'%}?category={{category.title}}">{{ category.title }}</a> </li>
         {% endfor %}
     </ul>
-{% endblock %}
+{% endblock %} {% endcomment %}
+
+{% block list-name %}
+Categories
+{% endblock list-name %}
+
+{% block categories %}
+
+{% for cat in object_list %}
+
+            <a href="{% url 'sub-categories'%}?category={{cat.title}}">
+                <div class="category-items" id="sub-category-items">
+
+                    <div class="img_category"><img src="http://127.0.0.1:8000/media/{{cat.image}}" alt="{{ cat.title }}"></div>
+                </div>
+            </a>
+
+{% endfor %}
+
+{% endblock categories %}
+

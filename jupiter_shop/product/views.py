@@ -9,6 +9,13 @@ from django.views.generic import ListView, DetailView
 class Landing(ListView):
     model = Category
 
+    def get_queryset(self):
+        qs = Category.objects.all()
+        for q in qs :
+            print(q.image)
+        return qs
+    
+
 
 class SubCategories(ListView):
     model = SubCategory

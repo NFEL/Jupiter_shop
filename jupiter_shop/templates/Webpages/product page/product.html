@@ -1,0 +1,242 @@
+{% load static %}
+
+<!DOCTYPE html>  
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="button.css">
+    <link rel="stylesheet" href="overlay.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+    
+    <!-- <script src="jquery-3.5.1.js"></script> -->
+
+
+    <script>
+        var removeSuccess;
+
+        removeSuccess = function () {
+            return jQuery('.button').removeClass('success');
+        };
+
+        jQuery(document).ready(function () {
+            return jQuery('.button').click(function () {
+                jQuery(this).addClass('success');
+                return setTimeout(removeSuccess, 3000);
+            });
+        });
+
+        function show_product(element_id) {
+
+            var visi = document.getElementById(element_id).style.visibility;
+            if (visi == "hidden") {
+
+                document.getElementById(element_id).style.visibility = 'visible';
+                disableScroll();
+            } else {
+
+                document.getElementById(element_id).style.visibility = 'hidden';
+                enableScroll();
+            }
+        }       
+
+                var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+
+        function preventDefault(e) {
+            e.preventDefault();
+        }
+
+        function preventDefaultForScrollKeys(e) {
+            if (keys[e.keyCode]) {
+                preventDefault(e);
+                return false;
+            }
+        }
+
+        // modern Chrome requires { passive: false } when adding event
+        var supportsPassive = false;
+        try {
+            window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+                get: function () { supportsPassive = true; }
+            }));
+        } catch (e) { }
+
+        var wheelOpt = supportsPassive ? { passive: false } : false;
+        var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+
+        // call this to Disable
+        function disableScroll() {
+            window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+            window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+            window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+            window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+        }
+
+        // call this to Enable
+        function enableScroll() {
+            window.removeEventListener('DOMMouseScroll', preventDefault, false);
+            window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+            window.removeEventListener('touchmove', preventDefault, wheelOpt);
+            window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+        }
+
+
+        function hello() {
+            console.log("hello")
+        }
+
+
+    </script>
+
+
+</head>
+
+<body>
+
+
+    <div class="content" id="content">
+
+        <div class="sub-category-rows" id="sub-category-rows">
+
+            <button id="swipe-bt-sub-category-R" class="swipe_bt swipe_r" type="button">Right</button>
+            
+            <a href="asus.html">
+                <div class="sub-category-items" id="sub-category-items">
+                    <div class="img_brand"><img src="asus.png" alt="brand_name"></div>
+                </div>
+            </a>
+
+            <button id="swipe-bt-sub-category-L" class="swipe_bt swipe_l" type="button">Left</button>
+            <script>
+                const buttonRight = document.getElementById('swipe-bt-sub-category-R');
+                const buttonLeft = document.getElementById('swipe-bt-sub-category-L');
+
+                buttonRight.onclick = function () {
+                    document.getElementById('sub-category-rows').scrollLeft += 250;
+                };
+                buttonLeft.onclick = function () {
+                    document.getElementById('sub-category-rows').scrollLeft -= 250;
+                };
+            </script>
+        </div>
+
+
+        <div class="products_v2">
+            
+
+                {% for product in products %}
+                
+                    <div class="product" id="{{product.id}}" onclick="show_product('1')">
+
+                        <!-- product_detail_overlay -->
+
+                        <div class="product-overlay" id="1" style="visibility: hidden;">
+                            <div class="product-overlay-dialog">
+                                <div class="product-overlay-dialog-id maxheight-setter">{{product.id}}</div>
+                                <div class="product-overlay-dialog-name maxheight-setter">{{product.name}}</div>
+
+                                {% if product.brand_image %}
+                                
+                                <div class="product-overlay-dialog-brand maxheight-setter"><img src="{{product.brand_image}}" alt="brand_name">
+                                </div>
+                                {% endif %}
+                                {% if not product.brand_image %}
+                                
+                                <div class="product-overlay-dialog-brand maxheight-setter"><img src="{% static 'img/nonebrand.jpg' %}" alt="brand_name">
+                                </div>
+                                {% endif %}
+                                
+                                <hr style="grid-area: hr;" class="style-2 maxheight-setter">
+                                <div class="product-overlay-dialog-detail maxheight-setter"> <i
+                                        class="fas fa-info-circle"></i><br>{{product_detail}}</div>
+                                <div class="product-overlay-dialog-image maxheight-setter"><img src="{{product.image}}"
+                                        alt="brand_name"></div>
+                                <div class="product-overlay-dialog-comment maxheight-setter"><i class="fas fa-comments"></i><br>
+                                    <ul>
+                                    {% for comment in product.comment %}
+                                        <hr class='style-1'>
+                                        <li>
+                                        {{comment}}
+                                        </li>
+                                    {% endfor %}
+                                  
+                                </div>
+                                {% if product.off_price %}
+                                <div class="product-overlay-dialog-price maxheight-setter"><i
+                                        class="fas fa-percentage"></i> {{product.off_price}} </div>
+                                {% endif %}
+                                <div class="product-overlay-dialog-oldprice maxheight-setter">
+                                    <p style="text-decoration:line-through;"><i class="fas fa-dollar-sign"></i>{{product.real_price}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- product item -->
+
+                        <div class="product-image"><img src="{{product.image}}" alt="brand_name">
+                            <hr class="style-1">
+                        </div>
+
+                        <div class="product-name">{{product.name}}</div>
+                        <div class="product-detail">
+                            <div class="product-rate"><i class="fas fa-star" style="margin-right: 10px;"></i>{{product.rate}}</div>
+                            <div class="product-count"><i class="fas fa-sort-amount-down-alt"></i> >{{product.count}}</div>
+                        </div>
+
+                        <div class="product-addToCart-bt" id="product-addToCart-bt" onclick="
+                            event.stopPropagation();
+                        ">
+                            <button class="button " onclick="hello()" role="button">
+                                <span>
+                                    <div class="product-price">{{product.price}}</div>
+                                </span>
+                                <div class="icon">
+                                    <i class="fa fa-remove"></i>
+                                    <i class="fa fa-check"></i>
+                                </div>
+                            </button>
+                        </div>
+
+                    </div>
+                
+
+                {% endfor %}
+                    
+
+            <button class="product-empty product">
+
+            </button>
+
+
+        </div>
+
+
+        <br>
+        <br>
+
+
+        <br>
+        <br>
+
+
+    </div>
+
+
+<footer style="position: absolute; bottom: 0;">
+
+        All rights reserved <i class="fas fa-copyright"></i>
+
+</footer>
+
+
+
+
+</body>
+
+</html>
