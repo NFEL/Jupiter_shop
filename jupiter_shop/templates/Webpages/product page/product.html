@@ -8,14 +8,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="button.css">
-    <link rel="stylesheet" href="overlay.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <style>
+    @font-face {
+  font-family: iransans;
+  src: url({% static 'font/Iranian Sans.ttf' %});
+}
+    </style>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
     
     <!-- <script src="jquery-3.5.1.js"></script> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/sub-product/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sub-product/button.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sub-product/overlay.css'%}">
+
+    <style>
+    .product-empty {
+  background-image: url({% static 'imgs/add.png' %});
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: 35%;
+  opacity: 65%;
+  border-style: dashed;
+  border-width: 8px;
+  border-color: #9a9996;
+}
+.product-empty:hover{
+  filter: drop-shadow(0px 0px 10px gray);
+}
+
+    </style>
+
 
 
     <script>
@@ -129,85 +156,8 @@
 
         <div class="products_v2">
             
-
-                {% for product in products %}
-                
-                    <div class="product" id="{{product.id}}" onclick="show_product('1')">
-
-                        <!-- product_detail_overlay -->
-
-                        <div class="product-overlay" id="1" style="visibility: hidden;">
-                            <div class="product-overlay-dialog">
-                                <div class="product-overlay-dialog-id maxheight-setter">{{product.id}}</div>
-                                <div class="product-overlay-dialog-name maxheight-setter">{{product.name}}</div>
-
-                                {% if product.brand_image %}
-                                
-                                <div class="product-overlay-dialog-brand maxheight-setter"><img src="{{product.brand_image}}" alt="brand_name">
-                                </div>
-                                {% endif %}
-                                {% if not product.brand_image %}
-                                
-                                <div class="product-overlay-dialog-brand maxheight-setter"><img src="{% static 'img/nonebrand.jpg' %}" alt="brand_name">
-                                </div>
-                                {% endif %}
-                                
-                                <hr style="grid-area: hr;" class="style-2 maxheight-setter">
-                                <div class="product-overlay-dialog-detail maxheight-setter"> <i
-                                        class="fas fa-info-circle"></i><br>{{product_detail}}</div>
-                                <div class="product-overlay-dialog-image maxheight-setter"><img src="{{product.image}}"
-                                        alt="brand_name"></div>
-                                <div class="product-overlay-dialog-comment maxheight-setter"><i class="fas fa-comments"></i><br>
-                                    <ul>
-                                    {% for comment in product.comment %}
-                                        <hr class='style-1'>
-                                        <li>
-                                        {{comment}}
-                                        </li>
-                                    {% endfor %}
-                                  
-                                </div>
-                                {% if product.off_price %}
-                                <div class="product-overlay-dialog-price maxheight-setter"><i
-                                        class="fas fa-percentage"></i> {{product.off_price}} </div>
-                                {% endif %}
-                                <div class="product-overlay-dialog-oldprice maxheight-setter">
-                                    <p style="text-decoration:line-through;"><i class="fas fa-dollar-sign"></i>{{product.real_price}}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- product item -->
-
-                        <div class="product-image"><img src="{{product.image}}" alt="brand_name">
-                            <hr class="style-1">
-                        </div>
-
-                        <div class="product-name">{{product.name}}</div>
-                        <div class="product-detail">
-                            <div class="product-rate"><i class="fas fa-star" style="margin-right: 10px;"></i>{{product.rate}}</div>
-                            <div class="product-count"><i class="fas fa-sort-amount-down-alt"></i> >{{product.count}}</div>
-                        </div>
-
-                        <div class="product-addToCart-bt" id="product-addToCart-bt" onclick="
-                            event.stopPropagation();
-                        ">
-                            <button class="button " onclick="hello()" role="button">
-                                <span>
-                                    <div class="product-price">{{product.price}}</div>
-                                </span>
-                                <div class="icon">
-                                    <i class="fa fa-remove"></i>
-                                    <i class="fa fa-check"></i>
-                                </div>
-                            </button>
-                        </div>
-
-                    </div>
-                
-
-                {% endfor %}
-                    
+            {% block product-items %}
+            {% endblock product-items %}
 
             <button class="product-empty product">
 

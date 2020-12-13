@@ -36,14 +36,20 @@
   .product-overlay-dialog-id{grid-area: id;}
   .product-overlay-dialog-name{grid-area: name;}
   .product-overlay-dialog-brand{grid-area: brand;height:100px;
-    width: 100%;}
-  .product-overlay-dialog-detail{grid-area: detail;max-height: 250px; overflow-y: scroll;overflow-x: hidden;}
+    
+    max-width: 100px;
+    min-width: fit-content;
+  }
+  .product-overlay-dialog-detail{grid-area: detail;min-height: 100px;max-height: 250px; overflow-y: scroll;overflow-x: hidden;}
   .product-overlay-dialog-image{grid-area: img;
+
     height:275px;
-    width: 100%;
+    max-width: 200px;
+    min-width: fit-content;
   }
 
-  .product-overlay-dialog-comment{ grid-area: comment;max-height:100px;overflow: scroll;}
+  .product-overlay-dialog-comment{ grid-area: comment;max-height:100px;
+    min-height: 35% ;overflow: scroll;}
   
   
   

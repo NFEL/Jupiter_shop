@@ -143,19 +143,6 @@ img{
 }
 
 
-.product-empty {
-  background-image: url("add.png");
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: 35%;
-  opacity: 65%;
-  border-style: dashed;
-  border-width: 8px;
-  border-color: #9a9996;
-}
-.product-empty:hover{
-  filter: drop-shadow(0px 0px 10px gray);
-}
 
 .products_v2{
   margin: 1.5%;

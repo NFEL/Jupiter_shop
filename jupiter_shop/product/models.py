@@ -1,13 +1,12 @@
-
 from django.db import models
 from django.utils.translation import gettext as _
-
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     title = models.CharField('گروه', max_length=35, unique=True)
     description = models.JSONField('توضیحات گروه بندی', blank=True, null=True)
     image = models.ImageField(
-        "عکس گروه", upload_to="category/",blank=True, null=True)
+        "عکس گروه", upload_to="category/", blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -50,21 +49,27 @@ class ProductBrand(models.Model):
         return self.name
 
 
-from store.models import Store
-
 class Product(models.Model):
     name = models.CharField('محصولات', max_length=100)
     # اگر محصول ناموجود باشد -> null
     stock_count = models.IntegerField('مقدار باقیمانده', default=0)
-    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    store = models.ForeignKey('store.Store', on_delete=models.CASCADE)
     brand = models.ForeignKey(ProductBrand, verbose_name=_(
-        "Product Brand"), on_delete=models.CASCADE)
+        "Product Brand"), on_delete=models.CASCADE,blank=True, null=True)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name='products')
     # ممکن است در بعضی موارد محصول گروه بندی نشود
     sub_category = models.ForeignKey(
-        SubCategory, on_delete=models.SET_NULL, null=True)
+        SubCategory, on_delete=models.SET_NULL, null=True,blank=True)
     description = models.JSONField(blank=True, null=True)
+
+
+    image = models.ImageField(_("Product image"), upload_to='products/images/')
+
+
+
+
+    user_responsible = models.ForeignKey(User, verbose_name=_("Responsible User"), on_delete=models.CASCADE,blank=True, null=True)
 
     def __str__(self):
         return f'{self.id} -> {self.name} [{self.stock_count} in stock]'
@@ -76,7 +81,7 @@ class Product(models.Model):
 class ProductPrice(models.Model):
 
     date = models.DateField(_("date of this price"), auto_now_add=True)
-    datetime =models.DateTimeField(_("datetime"), auto_now_add=True)
+    datetime = models.DateTimeField(_("datetime"), auto_now_add=True)
     product = models.ForeignKey(Product, verbose_name=_(
         "Product"), on_delete=models.CASCADE)
     price = models.FloatField(_("Price"))

@@ -4,17 +4,32 @@ from django.views import View
 from django.http import JsonResponse
 from .models import Category, Product, SubCategory
 from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class Landing(ListView):
+
+
+
+class Landing(LoginRequiredMixin, ListView):
+    login_url= '/admin/'
     model = Category
 
-    def get_queryset(self):
-        qs = Category.objects.all()
-        for q in qs :
-            print(q.image)
-        return qs
-    
+
+    def get(self,request,*args, **kwargs):
+
+        for ar in args:
+            print(ar)
+
+        print(kwargs)
+
+        print(request.user.has_perm('product.view_product'))
+
+        if request.user.has_perm('product.delete_product'):
+            print("to mitoni")
+
+        # print(type(request.GET.get('as')))
+        return super().get(self,request,args,kwargs)
+
 
 
 class SubCategories(ListView):
@@ -32,6 +47,12 @@ class SubCategories(ListView):
 class Products(ListView):
 
     model = Product
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context)
+        return context
 
     def get_queryset(self):
 
@@ -56,6 +77,4 @@ class AllProducts(ListView):
         category_obj = get_object_or_404(
             Category, title=self.request.GET.get('title', None))
         query_set = category_obj.sub_category_set.all()
-
-        # queryset = Product.objects.filter(sub_category_set = 'animals')
         return query_set

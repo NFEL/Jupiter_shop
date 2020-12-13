@@ -1,55 +1,61 @@
 .product-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    z-index: 10;
-    background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.5);
 
-  }
-  .product-overlay-dialog {
-    box-shadow: 0px 0px 46px 0px rgba(207,162,207,1);
-     
-    display: grid;
-      grid-template-areas: 
-      'id name brand'
-      'hr hr hr'
-      'detail detail img'
-      'detail detail img'
-        'comment comment price'
-        'comment comment old-price'
-      ;
-      
+}
+.product-overlay-dialog {
+  box-shadow: 0px 0px 46px 0px rgba(207,162,207,1);
+   
+  display: grid;
+    grid-template-areas: 
+    'id name brand'
+    'hr hr hr'
+    'detail detail img'
+    'detail detail img'
+      'comment comment price'
+      'comment comment old-price'
+    ;
+    
 
-    position: fixed;
-    top: 25%; 
-    left: 30%;
-    width: 45%;
-    max-height: 60%;
-    background-color: #f6f5f4;
-    border-radius: 5px;
-    text-align: center;
-    z-index: 11; /* 1px higher than the overlay layer */
-  }
-  
-  .product-overlay-dialog-id{grid-area: id;}
-  .product-overlay-dialog-name{grid-area: name;}
-  .product-overlay-dialog-brand{grid-area: brand;height:100px;
-    width: 100%;}
-  .product-overlay-dialog-detail{grid-area: detail;max-height: 250px; overflow-y: scroll;overflow-x: hidden;}
-  .product-overlay-dialog-image{grid-area: img;
-    height:275px;
-    width: 100%;
-  }
+  position: fixed;
+  top: 25%; 
+  left: 30%;
+  width: 45%;
+  max-height: 60%;
+  background-color: #f6f5f4;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 11; /* 1px higher than the overlay layer */
+}
 
-  .product-overlay-dialog-comment{ grid-area: comment;max-height:100px;overflow: scroll;}
+.product-overlay-dialog-id{grid-area: id;}
+.product-overlay-dialog-name{grid-area: name;}
+.product-overlay-dialog-brand{grid-area: brand;min-height:100px;max-height:200px;
   
-  
-  
-  .product-overlay-dialog-price{grid-area: price;}
-  .product-overlay-dialog-oldprice{grid-area: old-price;text-decoration: line-through; }
+  max-width: 100px;
+  min-width: fit-content;
+}
+.product-overlay-dialog-detail{grid-area: detail;min-height: 100px;max-height: 250px; overflow-y: scroll;overflow-x: hidden;}
+.product-overlay-dialog-image{grid-area: img;
 
-  .maxheight-setter{
-      margin: auto;
-  }
+  height:275px;
+  max-width: 200px;
+  min-width: fit-content;
+}
+
+.product-overlay-dialog-comment{ grid-area: comment;max-height:200px;
+  min-height: 100px ;overflow: scroll;}
+
+
+
+.product-overlay-dialog-price{grid-area: price;}
+.product-overlay-dialog-oldprice{grid-area: old-price;text-decoration: line-through; }
+
+.maxheight-setter{
+    margin: auto;
+}
