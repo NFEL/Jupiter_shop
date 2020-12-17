@@ -51,7 +51,6 @@ class Products(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(context)
         return context
 
     def get_queryset(self):
@@ -60,8 +59,7 @@ class Products(ListView):
             SubCategory, title=self.request.GET.get('sub-category', None))
 
         queryset = Product.objects.filter(sub_category=sub_category_obj)
-        for q in queryset:
-            print(q)
+        
         return queryset
 
 class ProductDetail(DetailView):

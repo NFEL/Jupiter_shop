@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
 
-    'product',
+    'product.apps.ProductConfig',
     'store',
     'user',
     'address',

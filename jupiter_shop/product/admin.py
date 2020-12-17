@@ -5,10 +5,8 @@ from .models import Category, SubCategory, Product, ProductBrand,ProductPrice,Pr
 
 class PriceInline(admin.TabularInline):
     model = ProductPrice
-    parent_model = Product
-# class BrandInline(admin.TabularInline):
-#     model = ProductBrand
-#     # parent_model = Product
+
+    
 class ProductImages(admin.StackedInline):
     model = ProductImage
     parent_model = Product

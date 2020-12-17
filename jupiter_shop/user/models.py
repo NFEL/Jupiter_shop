@@ -1,5 +1,8 @@
 from django.db import models
+from django.contrib.auth import user_logged_in
 from django.contrib.auth.models import User
+
+
 from django.http import HttpResponseBadRequest
 
 
@@ -16,12 +19,12 @@ class Profile(models.Model):
     image = models.ImageField(upload_to='./res/profile_photo',blank=True, null=True)
 
     USER_TYPE = [("A", 'customer'), ("B", 'staff')]
-    user_join_date = models.DateField(auto_created=True)
+    user_join_date = models.DateField(auto_now_add=True)
     user_type = models.CharField(max_length=1, choices=USER_TYPE, default="A")
 
-    user_last_login = models.DateTimeField(blank=True, null=True)
+    user_last_login = models.DateTimeField(auto_now_add = True,blank=True, null=True)
 
-
+    
     # def save(self, force_insert: bool, force_update: bool, using: Optional[str], update_fields: Optional[Iterable[str]]) -> None:
     #     return super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
 
@@ -41,13 +44,12 @@ class Profile(models.Model):
 
             user = User.objects.create(username = f'{self.ful_name} - {self.phonenumber}',password=password, is_staff= is_staff) 
             self.user_id = user
-            # self.user_id.is_staff = True
-
-            # return HttpResponseBadRequest(e)
         except Exception as e:
             raise e
         return super().save(*args, **kwargs)
 
+    # def update_user_login_date(sender,*args, **kwargs):
+        
 
     def __str__(self):
         if self.ful_name:
@@ -73,3 +75,8 @@ class Profile(models.Model):
 #     def save(self,*args, **kwargs):
 #             if 
 #         return super().save(args, kwargs)
+
+def asd():
+    pass
+
+user_logged_in.connect(asd)
