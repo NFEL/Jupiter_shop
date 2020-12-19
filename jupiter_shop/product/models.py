@@ -1,10 +1,11 @@
 from django.db import models
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
+from django.db.models import UniqueConstraint, constraints
 
 class Category(models.Model):
     title = models.CharField('گروه', max_length=35, unique=True)
-    description = models.JSONField('توضیحات گروه بندی', blank=True, null=True)
+    description = models.TextField('توضیحات گروه بندی', blank=True, null=True)
     image = models.ImageField(
         "عکس گروه", upload_to="category/", blank=True, null=True)
 
@@ -20,7 +21,7 @@ class Category(models.Model):
 
 class SubCategory(models.Model):
     title = models.CharField('طبقه بندی', max_length=45)
-    description = models.JSONField('توضیحات طبقه بندی', blank=True, null=True)
+    description = models.TextField('توضیحات طبقه بندی', blank=True, null=True)
     its_category = models.ForeignKey(Category, on_delete=models.CASCADE)
     image = models.ImageField(
         "عکس طبقه بندی", upload_to="sub-category/")
@@ -33,6 +34,10 @@ class SubCategory(models.Model):
         managed = True
         verbose_name = 'طبقه بندی'
         verbose_name_plural = 'طبقه بندی ها'
+        constraints=[
+            UniqueConstraint(
+            name='unique_order',
+            fields=['title','its_category'],)]
 
 
 class ProductBrand(models.Model):
@@ -98,6 +103,7 @@ class ProductImage(models.Model):
 
     image = models.ImageField("عکس محصول", upload_to="products/",
                               height_field=600, width_field=600, max_length=600)
+    name = models.CharField(_("image_name"), max_length=50)
     product = models.ForeignKey(Product, verbose_name=_(
         "product"), on_delete=models.CASCADE)
 

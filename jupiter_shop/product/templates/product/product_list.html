@@ -43,8 +43,24 @@
                                 <hr style="grid-area: hr;    min-height: 10px;" class="style-2">
                                 <div class="product-overlay-dialog-detail maxheight-setter"> <i
                                         class="fas fa-info-circle"></i><br>{{product_detail}}</div>
-                                <div class="product-overlay-dialog-image maxheight-setter"><img src="http://127.0.0.1:8000/media/{{product.image}}"
-                                        alt="brand_name"></div>
+                                <div class="product-overlay-dialog-image maxheight-setter">
+                                
+                                        
+                                    <div class="container-product-image">
+                    
+                                        <div class="box">
+                                            <img src="https://source.unsplash.com/1000x800">
+                                            <span>CSS</span>
+                                        </div>
+
+                                        {% for image in product_ %}{% endfor %}
+
+
+
+                                        
+                                    </div>
+
+                                </div>
                                 <div class="product-overlay-dialog-comment maxheight-setter"><i class="fas fa-comments"></i><br>
                                     <ul>
                                     {% for comment in product.comment %}
@@ -97,3 +113,58 @@
                 {% endfor %}
                     
 {% endblock product-items %}
+
+{% block empty-products %}
+
+<button class="product-empty product" onclick='show_add_page()'>
+
+</button>
+
+
+                        <div class="product-overlay" id="{{product.id}}" style="visibility: hidden;">
+                            <div class="product-overlay-dialog">
+                                <div class="product-overlay-dialog-id maxheight-setter">{{product.id}}</div>
+                                <div class="product-overlay-dialog-name maxheight-setter">{{product.name}}</div>
+
+                                {% if product.brand_image %}
+                                
+                                <div class="product-overlay-dialog-brand maxheight-setter"><img src="http://127.0.0.1:8000/media/{{product.brand_image}}" alt="brand_name">
+                                </div>
+                                {% endif %}
+                                {% comment %} {% if not product.brand_image %}
+                                
+                                <div class="product-overlay-dialog-brand maxheight-setter"><img src="{% static 'img/nonebrand.jpg' %}" alt="brand_name">
+                                </div>
+                                {% endif %} {% endcomment %}
+                                
+                                <hr style="grid-area: hr;    min-height: 10px;" class="style-2">
+                                <div class="product-overlay-dialog-detail maxheight-setter"> <i
+                                        class="fas fa-info-circle"></i><br>{{product_detail}}</div>
+                                <div class="product-overlay-dialog-image maxheight-setter"><img src="http://127.0.0.1:8000/media/{{product.image}}"
+                                        alt="brand_name"></div>
+                                <div class="product-overlay-dialog-comment maxheight-setter"><i class="fas fa-comments"></i><br>
+                                    <ul>
+                                    {% for comment in product.comment %}
+                                        <hr class='style-1'>
+                                        <li>
+                                        {{comment}}
+                                        </li>
+                                    {% endfor %}
+                                  
+                                </div>
+                                {% if product.off_price %}
+                                <div class="product-overlay-dialog-price maxheight-setter"><i
+                                        class="fas fa-percentage"></i> {{product.off_price}} </div>
+                                {% endif %}
+                                <div class="product-overlay-dialog-oldprice maxheight-setter">
+                                    <p style="text-decoration:line-through;"><i class="fas fa-dollar-sign"></i>{{product.real_price}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+<form method='POST'>
+</form>
+
+{% endblock empty-products %}

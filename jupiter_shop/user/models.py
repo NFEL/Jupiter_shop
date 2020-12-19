@@ -1,21 +1,30 @@
 from django.db import models
-from django.contrib.auth import user_logged_in
 from django.contrib.auth.models import User
 
 
-from django.http import HttpResponseBadRequest
+
+# from django.db.models.signals import pre_save
+# from django.dispatch.dispatcher import receiver
+
+# @receiver(pre_save,sender= Profile)
+# def create_user_before_profile_saves(instance,*args, **kwargs):
+#     try:
+#         user = User.objects.create(username = f'{instance.ful_name} - {instance.phonenumber}',password=instance.password) 
+#         instance.id = user
+#     except Exception:
+#         raise Exception
 
 
 
 class Profile(models.Model):
-    user_id = models.OneToOneField(User,on_delete=models.RESTRICT,primary_key=True,blank=True)
+    user = models.OneToOneField(User,on_delete=models.RESTRICT,primary_key=True,blank=True)
+    password = models.CharField(max_length=128,blank=True, null=True)
+    ful_name = models.CharField(max_length=40, null=False)
 
     phonenumber = models.CharField(max_length=12, null=False,unique=True)
-    ful_name = models.CharField(max_length=40, null=False)
     address = models.OneToOneField(
         'address.Address', on_delete=models.SET_NULL, null=True,blank=True)
     postal_code = models.IntegerField(blank=True, null=True)
-    password = models.CharField(max_length=128,blank=True, null=True)
     image = models.ImageField(upload_to='./res/profile_photo',blank=True, null=True)
 
     USER_TYPE = [("A", 'customer'), ("B", 'staff')]
@@ -76,7 +85,3 @@ class Profile(models.Model):
 #             if 
 #         return super().save(args, kwargs)
 
-def asd():
-    pass
-
-user_logged_in.connect(asd)

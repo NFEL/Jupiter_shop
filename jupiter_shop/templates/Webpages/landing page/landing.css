@@ -15,7 +15,7 @@ body {
     width: 100%;
 }
 
-form{
+.searchbar{
     position: relative;
     top: 50%;
     left: 50%;
@@ -60,16 +60,16 @@ input{
     transition: all 1s;
 }
 
-form:hover{
+.searchbar:hover{
     width: 200px;
     cursor: pointer;
 }
 
-form:hover input{
+.searchbar:hover input{
     display: block;
 }
 
-form:hover .fa{
+.searchbar:hover .fa{
     background: #07051a;
     color: white;
 }

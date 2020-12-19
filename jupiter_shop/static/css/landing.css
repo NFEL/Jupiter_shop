@@ -16,7 +16,7 @@ body {
     width: 100%;
 }
 
-form{
+.searchbar{
     position: relative;
     top: 50%;
     left: 50%;
@@ -61,16 +61,16 @@ input{
     transition: all 1s;
 }
 
-form:hover{
+.searchbar:hover{
     width: 200px;
     cursor: pointer;
 }
 
-form:hover input{
+.searchbar:hover input{
     display: block;
 }
 
-form:hover .fa{
+.searchbar:hover .fa{
     background: #07051a;
     color: white;
 }
@@ -464,3 +464,27 @@ img{
   
 }
 
+
+.addcat-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.5);
+
+}
+.addcat-overlay-dialog {
+  box-shadow: 0px 0px 46px 0px rgba(207,162,207,1);
+   
+  position: fixed;
+  top: 25%; 
+  left: 30%;
+  width: 45%;
+  max-height: 60%;
+  background-color: #f6f5f4;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 11; /* 1px higher than the overlay layer */
+}
