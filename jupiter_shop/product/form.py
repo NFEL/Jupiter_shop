@@ -8,8 +8,5 @@ class AddCategory(ModelForm):
         model = Category
         fields = fields_for_model(Category)
 
-class AddSubCategory(ModelForm):
-    its_category = forms.ModelChoiceField(SubCategory.objects.all())
-    class Meta:
-        model = Category
-        fields = ['title','description','image','its_category']
+
+

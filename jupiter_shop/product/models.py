@@ -1,7 +1,10 @@
 from django.db import models
 from django.utils.translation import gettext as _
-from django.contrib.auth.models import User
-from django.db.models import UniqueConstraint, constraints
+from django.contrib.auth import get_user_model
+from django.db.models import UniqueConstraint, constraints, Avg
+from django.core.validators import MaxValueValidator, MinValueValidator
+
+User = get_user_model()
 
 class Category(models.Model):
     title = models.CharField('گروه', max_length=35, unique=True)
@@ -68,7 +71,7 @@ class Product(models.Model):
         SubCategory, on_delete=models.SET_NULL, null=True,blank=True)
     description = models.JSONField(blank=True, null=True)
 
-
+    
     image = models.ImageField(_("Product image"), upload_to='products/images/')
 
 
@@ -79,6 +82,14 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.id} -> {self.name} [{self.stock_count} in stock]'
 
+    def my_rate(self):
+        return self.productcomment_set.all().aggregate(Avg('rate')).get('rate__avg',None)
+    def my_price(self):
+        return self.productprice_set.all().order_by('-datetime__minute')[0].price
+    def my_images(self):
+        return self.productimage_set.all()
+    def my_comments(self):
+        return self.productcomment_set.all()
     class Meta:
         db_table = 'Products'
 
@@ -102,7 +113,7 @@ class ProductPrice(models.Model):
 class ProductImage(models.Model):
 
     image = models.ImageField("عکس محصول", upload_to="products/",
-                              height_field=600, width_field=600, max_length=600)
+                              )
     name = models.CharField(_("image_name"), max_length=50)
     product = models.ForeignKey(Product, verbose_name=_(
         "product"), on_delete=models.CASCADE)
@@ -116,3 +127,10 @@ class ProductImage(models.Model):
 
     # def get_absolute_url(self):
     #     return reverse("ProductImage_detail", kwargs={"pk": self.pk})
+
+class ProductComment(models.Model):
+    product = models.ForeignKey(Product, verbose_name=_(""), on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name=_(""), on_delete=models.CASCADE)
+    rate = models.FloatField(_(""),validators=[MinValueValidator(0), MaxValueValidator(5)],)
+    text = models.CharField(_(""), max_length=350)
+

@@ -35,7 +35,7 @@
 
 .product-overlay-dialog-id{grid-area: id;}
 .product-overlay-dialog-name{grid-area: name;}
-.product-overlay-dialog-brand{grid-area: brand;min-height:100px;max-height:200px;
+.product-overlay-dialog-brand{grid-area: brand;min-height:30px;max-height:80px;
   
   max-width: 100px;
   min-width: fit-content;
@@ -56,6 +56,6 @@
 .product-overlay-dialog-price{grid-area: price;}
 .product-overlay-dialog-oldprice{grid-area: old-price;text-decoration: line-through; }
 
-.maxheight-setter{
+/* .maxheight-setter{
     margin: auto;
-}
+} */

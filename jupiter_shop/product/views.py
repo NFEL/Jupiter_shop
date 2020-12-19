@@ -1,8 +1,9 @@
+from django import views
 from django.db.models import query
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
-from django.http import JsonResponse
-from django.views.generic import ListView, DetailView
+from django.http import JsonResponse,HttpResponse
+from django.views.generic import ListView, DetailView,CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.core.files.base import ContentFile
@@ -11,8 +12,8 @@ from django.core.files.temp import NamedTemporaryFile
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
-from .models import Category, Product, SubCategory
-from .form import AddCategory,AddSubCategory
+from .models import Category, Product, ProductImage, SubCategory,ProductPrice
+from .form import AddCategory
 
 
 
@@ -77,6 +78,12 @@ class Products(ListView):
         
         return queryset
 
+class ProductCreateView(CreateView):
+    model = Product
+    template_name = "product/product-createView.html"
+    fields = ['name','category','sub_category','store','description','image','user_responsible','brand']
+
+
 class ProductDetail(DetailView):
     model = Product
     
@@ -91,3 +98,11 @@ class AllProducts(ListView):
             Category, title=self.request.GET.get('title', None))
         query_set = category_obj.sub_category_set.all()
         return query_set
+
+
+def get_price(request,product_id,*args,**kwargs):
+    price = 0
+    p_obj = get_object_or_404(Product,id=product_id)
+    price = p_obj.productprice_set.all().order_by('-datetime__minute')[0].price
+
+    return HttpResponse(price)
