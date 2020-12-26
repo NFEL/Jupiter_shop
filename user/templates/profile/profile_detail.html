@@ -1,0 +1,204 @@
+{% extends 'Webpages/Profile page/profile.html' %}
+
+
+
+{% block verification-code %}
+
+
+
+
+{% if request.session.user_obj %}
+<style>
+.overlay-form{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  text-align:center;
+  vertical-align : middle;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 200;
+}
+
+.input-overlay{
+  position: absolute;
+  width:65%;
+  top: 50%;
+  left: 50%;
+  font-size: 35px;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+    text-alig:center;
+}
+.button-check {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button-check span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button-check span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button-check:hover span {
+  padding-right: 25px;
+}
+
+.button-check:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+</style>
+<form method='POST' class="overlay-form" >
+{% csrf_token %}
+  <input name='signup-uuid-given' class="input-overlay" placeholder='Enter Verification Code'>
+
+  <button class="button-check input-overlay" style='top:65%;width:10%;vertical-align:middle;'><span style='font-size:25px'>Check </span></button>
+
+</form>
+
+
+
+{% endif %}
+{% endblock verification-code %}
+
+{% block signup %}
+
+
+<form method='POST'>
+    {% csrf_token %}
+    <h1>Create Account</h1>
+    <div class="social-container">
+        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+        <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+
+    <span>or use your email for registration</span>
+
+    <style>
+        .required {
+            border: 3px solid;
+            border-color: coral;
+            border-radius: 5px;
+        }
+    </style>
+    <input type="text" name='signup-username' class='required' placeholder="Name" required="required" />
+    <input type="password" id='signup-password' class='required' name='signup-password' placeholder="Password"
+        required="required" />
+    <h3>Verification</h3>
+
+    <input type="tel" name='signup-phone_number' placeholder="Phone Number" />
+    <input type="email" name='signup-email' placeholder="Email" />
+
+    <input type="hidden" name='signup' value='True' />
+
+
+    <button type="submit" name="submit" value="Submit" onclick="CheckPassword()">Sign Up</button>
+</form>
+
+<script>
+    function CheckPassword() {
+        inputtxt = document.getElementById('signup-password')
+        var passw = /^.{8,128}$/;
+        {% comment %} var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,128}$/; {% endcomment %}
+        if (inputtxt.value.match(passw)) {
+            return true;
+        }
+        else {
+            alert('Bad Password (at least 8 characters)')
+            inputtxt.value = ''
+            return false;
+        }
+    }
+</script>
+
+{% endblock signup %}
+
+{% block signin %}
+
+<form method='POST'>
+    {% csrf_token %}
+    <h1>Sign in</h1>
+    <div class="social-container">
+        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+        <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+    <span>or use your account</span>
+    <input label='username' name='signin-username' type="username" placeholder="Username" />
+    <input type="password" name='signin-password' placeholder="Password" />
+    <input type="hidden" name='signin' value='True' />
+
+    <a href="#">Forgot your password?</a>
+    <button type="submit">Sign In</button>
+
+</form>
+{% endblock signin %}
+
+{% block redirect-to-profile %}
+
+
+<a href='http://{{request.META.HTTP_HOST}}{% url 'categories' %}'>
+    <h1 style='margin-bottom:10%;font-size:3em;'>
+        Jupiter Shop
+    </h1>
+</a>
+
+{% if request.user.is_authenticated %}
+
+
+<h1>
+    {{user.username}}
+</h1>
+<br>
+<button onclick="window.location.href='http://{{request.META.HTTP_HOST}}{% url 'user-profile' %}';" class="acount"
+    style='cursor:pointer;'>
+    <i class="fa fa_custom fa-user">My Profile</i>
+</button>
+<br>
+<button onclick="window.location.href='http://{{request.META.HTTP_HOST}}{% url 'user-logout' %}';" class="acount"
+    style='cursor:pointer;'>
+    <i class="fa fa_custom fa-logout">Logout</i>
+</button>
+<br>
+<br>
+
+
+<br>
+{% else %}
+<h1>
+    Wellcome
+</h1>
+<br>
+<br>
+
+{% endif %}
+
+
+{% endblock redirect-to-profile %}

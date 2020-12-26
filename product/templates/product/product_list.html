@@ -1,0 +1,148 @@
+{% extends "Webpages/product page/product.html"%}
+
+{% block brands %}
+
+{% if brands %}
+<div class="sub-category-rows" id="sub-category-rows">
+
+    <button id="swipe-bt-sub-category-R" class="swipe_bt_product swipe_r_product" type="button">Right</button>
+        {% for brand in brands %}
+            <a href="?brand={{brand.name}}">
+                    <div class="sub-category-items" id="sub-category-items">
+                        <div class="img_brand"><img src="http://127.0.0.1:8000/media/{{brand.image}}" alt="{{brand.name}}"></div>
+                    </div>
+                </a>
+        {% endfor %}
+
+    <button id="swipe-bt-sub-category-L" class="swipe_bt_product swipe_l_product" type="button">Left</button>
+    <script>
+        const buttonRight = document.getElementById('swipe-bt-sub-category-R');
+        const buttonLeft = document.getElementById('swipe-bt-sub-category-L');
+
+        buttonRight.onclick = function () {
+            document.getElementById('sub-category-rows').scrollLeft += 250;
+        };
+        buttonLeft.onclick = function () {
+            document.getElementById('sub-category-rows').scrollLeft -= 250;
+        };
+    </script>
+</div>
+{% endif %}
+
+{% endblock brands %}
+
+
+{% block product-items %}
+
+{% for product in product_list %}
+
+    <div class="product" onclick="show_product('{{product.id}}')">
+
+        <!-- product_detail_overlay -->
+
+        <div class="product-overlay" id="{{product.id}}" style="visibility: hidden;">
+            <div class="product-overlay-dialog">
+                <div class="product-overlay-dialog-id maxheight-setter"><h4>#{{product.id}}</h4></div>
+                <div class="product-overlay-dialog-name maxheight-setter"><h2>{{product.name}}</h2></div>
+
+                {% if product.brand %}
+                
+                <div class="product-overlay-dialog-brand maxheight-setter"><img src="http://127.0.0.1:8000/media/{{product.brand.image}}" alt="brand_name">
+                </div>
+                {% endif %}
+                
+                <hr style="grid-area: hr;    min-height: 10px;" class="style-2">
+                <div class="product-overlay-dialog-detail maxheight-setter"> <i
+                        class="fas fa-info-circle"></i><br>{{product.description}}</div>
+                <div class="product-overlay-dialog-image maxheight-setter">
+                
+                        
+                    <div class="container-product-image">
+    
+                        
+                        {% for image in product.my_images %}
+                        <div class="box">
+
+                            <img src="http://127.0.0.1:8000/media/{{image.image}}">
+                            {% comment %} <img src="{% url '' %}"> {% endcomment %}
+                            {% comment %} <img src="https://source.unsplash.com/1000x800"> {% endcomment %}
+                            <span> {{image.name}} </span>
+                        </div>
+
+                        {% endfor %}
+
+
+
+                        
+                    </div>
+
+                </div>
+                <div class="product-overlay-dialog-comment maxheight-setter"><i class="fas fa-comments"></i><br>
+                    
+                    {% for comment in product.my_comments %}
+                        <hr class='style-1'>
+                        
+                        <h3>{{comment.user.username}}</h3>
+                        
+                        {{comment.rate}}
+                        <br>
+                        <p>
+                        {{comment.text}}
+                        </p>
+                        
+                    {% endfor %}
+                    
+                </div>
+                {% if product.off_price %}
+                <div class="product-overlay-dialog-price maxheight-setter"><i
+                        class="fas fa-percentage"></i> {{product.off_price}} </div>
+                {% endif %}
+                <div class="product-overlay-dialog-oldprice maxheight-setter">
+                    <p style="text-decoration:line-through;"><i class="fas fa-dollar-sign"></i>{{product.my_price}}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- product item -->
+
+        <div class="product-image"><img src="http://127.0.0.1:8000/media/{{product.image}}" alt="brand_name">
+            <hr class="style-1">
+        </div>
+
+        <div class="product-name">{{product.name}}</div>
+        <div class="product-detail">
+            <div class="product-rate"><i class="fas fa-star" style="margin-right: 10px;"></i>{{product.my_rate}}</div>
+            <div class="product-count"><i class="fas fa-sort-amount-down-alt"></i> >{{product.stock_count}}</div>
+        </div>
+
+        <div class="product-addToCart-bt" id="product-addToCart-bt" onclick="
+            event.stopPropagation();
+        ">
+            <button class="button " onclick="hello()" role="button">
+                <span>
+                    <div class="product-price">{{product.my_price}}</div>
+                </span>
+                <div class="icon">
+                    <i class="fa fa-remove"></i>
+                    <i class="fa fa-check"></i>
+                </div>
+            </button>
+        </div>
+
+    </div>
+
+
+{% endfor %}
+                    
+{% endblock product-items %}
+
+{% block empty-products %}
+
+{% if request.user.is_staff %}
+
+<a class="product-empty product" href="{% url 'admin:product_product_add' %}?">
+</a>
+
+{% endif %}
+
+{% endblock empty-products %}

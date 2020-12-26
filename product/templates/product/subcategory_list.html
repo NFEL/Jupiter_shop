@@ -1,0 +1,114 @@
+{% extends "Webpages/landing page/landing.html" %}
+{% load static %}
+
+{% block list-name %}
+    Sub categories {{object_list.its_category}}
+{% endblock list-name %}
+
+{% block categories %}
+
+
+
+{% if perms.product.add_category %}
+
+
+<style>
+.category-items-adding:hover{
+    box-shadow: inset 0px 0px 34px -11px rgba(186,71,167,1);
+    border-radius:5%;
+}
+</style>
+
+<div class="category-items-adding" id='show-overlay' style="cursor:pointer">
+    <img src="/static/imgs/add.png" style="width:200px;height:200px;" >
+    <div class="addcat-overlay" id="adding-category-overlay" style="visibility:hidden;">
+        <div class="addcat-overlay-dialog" >
+        
+            <div id='close_overlay' style="cursor:pointer">
+            <img src={% static 'imgs/close.png' %} width='75px' height='75px'>
+            close
+            </div>
+            <form method='POST' id="adding-category" 
+            accept-charset="utf-8" enctype="multipart/form-data"
+            style="padding:15px;display:flex;flex-direction:column;row-gap:25px;">
+                {% csrf_token %}
+                <style>
+                .normal-input{
+                    width: 100%;
+                    padding: 12px 20px;
+                    margin: 8px 0;
+                    display: block;
+                    position:relative;
+                }
+                </style>
+                <input type="text" name="title" maxlength="35" required id="id_title" placeholder="Sub Category Name" class="normal-input" >
+                <label for="id_description">توضیحات طبقه بندی:</label>
+                <textarea name="description" cols="40" rows="10" id="id_description" style="text-align:center;">description Of This category </textarea>
+                <label for="id_image">عکس طبقه:</label>
+                <input type="file" name="image" accept="image/*" id="id_image" src={% static 'imgs/image-add.png' %} class="normal-input">
+                <button type="submit" >Add</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+<script>
+$("#show-overlay").click(function(e) {
+   document.getElementById("adding-category-overlay").style.visibility = "visible";
+   e.stopPropagation();
+});
+$("#close_overlay").click(function(e) {
+    document.getElementById("adding-category-overlay").style.visibility ="hidden";
+   e.stopPropagation();
+});
+
+</script>
+
+{% endif %}
+
+
+
+
+
+
+
+{% for cat in object_list %}
+
+            <a href="{% url 'products'%}?sub-category={{cat.title}}">
+                <div class="category-items" id="sub-category-items">
+
+                    <div class="img_category"><img src="http://127.0.0.1:8000/media/{{cat.image}}" alt="{{ cat.title }}"></div>
+                </div>
+            </a>
+
+{% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock categories %}
+
+
+{% block products-inline %}
+{% include 'product/product_list.html' %}
+<style>
+.products_v2{
+  grid-template-columns: 1fr 1fr 1fr ;
+}
+.product{
+      background-color: blanchedalmond;
+}
+.button .icon {
+    top:25%;
+}
+
+</style>
+{% endblock products-inline %}

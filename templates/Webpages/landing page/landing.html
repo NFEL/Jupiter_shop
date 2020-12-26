@@ -1,0 +1,140 @@
+{% load static %}
+
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<link rel="stylesheet" href="{% static 'css/landing.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+</head>
+<body style="    background-image:    url({% static 'imgs/back.jpeg' %});">
+  
+  <script>var flag = false;
+    function showuser()
+    {
+      if (flag == false){
+        flag = true;
+        document.getElementById("showuuser").style.visibility = "visible";
+        
+        }
+        else{
+          flag = false;
+          document.getElementById("showuuser").style.visibility = "hidden";
+          
+          }
+  
+    }</script>
+
+
+<script>var flag2 = false;
+  function showcattech()
+  {
+    if (flag2 == false){
+      flag2 = true;
+      document.getElementById("showtech").style.visibility = "visible";
+      document.getElementById("hidden").style.visibility = "hidden";
+      }
+      else{
+        flag2 = false;
+        document.getElementById("showtech").style.visibility = "hidden";
+        document.getElementById("hidden").style.visibility = "visible";
+        }
+
+  }</script>
+
+<div class="header"> 
+    
+<form class="searchbar" action="">
+  <input type="search" name='search'>
+  <i class="fa fa_custom fa-search"></i>
+ 
+</form>
+
+
+<button onclick="window.location.href='http://{{request.META.HTTP_HOST}}{% url 'user-login' %}';"  class="acount"><i class="fa fa_custom fa-user"></i></button>
+<button class="info"><i class="fa fa_custom fa-question"></i></button>
+
+</div>
+<a href='{% url 'categories' %}'>
+
+<h1 style="text-align:center">
+Jupiter Shop
+</h1>
+</a>
+
+<div style="overflow-y:scroll;">
+<div style ="margin:auto;width:65%;">
+      <h1 style="text-align:center;color: #ddc9c9;">
+      {% block list-name %}
+      {% endblock list-name %}
+      </h1>
+        <div class="category-rows" id="category-rows">
+
+            
+            <button id="swipe-bt-category-L" style='position:sticky' class="swipe_bt swipe_l" type="button">Left</button>
+
+            {% block categories %}
+            {% endblock categories %}
+            <button id="swipe-bt-category-R" style='position:sticky' class="swipe_bt swipe_r" type="button">Right</button>
+
+
+            <script>
+                const buttonRight = document.getElementById('swipe-bt-category-R');
+                const buttonLeft = document.getElementById('swipe-bt-category-L');
+
+                buttonRight.onclick = function () {
+                    document.getElementById('category-rows').scrollLeft += 250;
+                };
+                buttonLeft.onclick = function () {
+                    document.getElementById('category-rows').scrollLeft -= 250;
+                };
+            </script>
+        </div>
+        {% block products-inline %}
+        
+        {% endblock products-inline %}
+</div>
+
+  </div>
+
+
+<div class="footer">
+  <button class="tools"><i class="fa fa_custom fa-user-friends"></i></button>
+  <button onclick="showta()" class="cart"><i class="fa fa_custom fa-shopping-cart"></i></button>
+
+  <script>var flag = false;
+    function showta()
+    {
+      if (flag == false){
+        flag = true;
+        document.getElementById("showtable").style.visibility = "visible";
+        
+        }
+        else{
+          flag = false;
+          document.getElementById("showtable").style.visibility = "hidden";
+          }
+  
+    }</script>
+
+  <table id="showtable" style="width:10%">
+    <tr>
+      <th>purchases</th>
+    </tr>
+    <tr>
+      <td>purchase 1</td>
+    </tr>
+    <tr>
+      <td>purchase 2</td>
+    </tr>
+    <tr>
+      <td>total price:.....</td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>
