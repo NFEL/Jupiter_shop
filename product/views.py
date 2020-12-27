@@ -20,6 +20,10 @@ class Landing(ListView):
     login_url = '/admin/'
     model = Category
 
+    def __init__(self, **kwargs) -> None:
+        self.p_list = Product.objects.all()
+        super().__init__(**kwargs)
+
     def post(self, request, *args, **kwargs):
         if request.user.has_perm('product.add_category'):
             form = AddCategory(data=request.POST, files=request.FILES)
@@ -29,12 +33,20 @@ class Landing(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['product_list'] = Product.objects.all()
+
+        if self.request.GET.get('search'):
+            self.p_list = self.p_list.filter(
+            name__contains=self.request.GET.get('search'))
+        context['product_list'] = self.p_list
         return context
 
 
 class SubCategories(ListView):
     model = SubCategory
+
+    def __init__(self, **kwargs) -> None:
+        self.p_list = Product.objects.all()
+        super().__init__(**kwargs)
 
     def post(self, request, *args, **kwargs):
         current_category = kwargs.get('category')
@@ -63,7 +75,12 @@ class SubCategories(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["product_list"] = Product.objects.filter(
+
+
+        if self.request.GET.get('search'):
+            self.p_list = self.p_list.filter(
+                name__contains=self.request.GET.get('search'))
+        context['product_list'] = self.p_list.filter(
             category__title=self.request.resolver_match.kwargs.get('category'))
         return context
 

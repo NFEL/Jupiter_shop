@@ -27,14 +27,26 @@ LOGIN_REDIRECT_URL = 'user-profile'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"redis://{os.getenv('REDIS_USER')}@127.0.0.1:6379/{os.getenv('REDIS_DB')}",
+        "LOCATION": f"redis://127.0.0.1:6379/{os.getenv('REDIS_DB')}",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "PASSWORD" : os.getenv('REDIS_PASS'),
+            # "PASSWORD" : os.getenv('REDIS_PASS'),
         },
-        "KEY_PREFIX": "email_auth"
+        "KEY_PREFIX": "jupiter-shop"
     }
 }
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": f"redis://{os.getenv('REDIS_USER')}@127.0.0.1:6379/{os.getenv('REDIS_DB')}",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#             "PASSWORD" : os.getenv('REDIS_PASS'),
+#         },
+#         "KEY_PREFIX": "email_auth"
+#     }
+# }
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

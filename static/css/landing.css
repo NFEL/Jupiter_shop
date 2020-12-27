@@ -168,9 +168,20 @@ input{
   }
   
 
+  .product{
+    background: linear-gradient(to right, #664944, #9b2d47);
+    background-repeat: no-repeat;
+    color:#f6f5f4;
+    height: 400px;
+    width: 300px;
+  }
+
   .category-rows{
     
-    background-color:antiquewhite;
+    /* background-color:antiquewhite;
+     */
+     background: linear-gradient(to right, #FF4B2B, #FF416C);
+     background-repeat: no-repeat;
     border-collapse: separate; 
     display: flex;
     flex-direction: row-reverse;
@@ -207,6 +218,10 @@ input{
       margin-left: 5px;
       margin-right: 5px;
       text-align: center;
+  }
+  .swipe_bt:hover{
+
+    box-shadow: 10px 10px 18px -15px rgba(223, 220, 179, 0.904);
   }
 
   .swipe_r{
@@ -249,7 +264,7 @@ img{
 }
 .addcat-overlay-dialog {
   box-shadow: 0px 0px 46px 0px rgba(207,162,207,1);
-   
+  padding: 10px;
   position: fixed;
   top: 25%; 
   left: 30%;

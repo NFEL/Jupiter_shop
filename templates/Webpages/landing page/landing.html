@@ -9,9 +9,15 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<style>
+@font-face {
+  font-family: iransans;
+  src: url({% static 'font/Iranian_Sans.ttf' %});
+}
+</style>
 
 </head>
-<body style="    background-image:    url({% static 'imgs/back.jpeg' %});">
+<body >
   
   <script>var flag = false;
     function showuser()
@@ -48,7 +54,7 @@
 
 <div class="header"> 
     
-<form class="searchbar" action="">
+<form class="searchbar" action="" method='GET'>
   <input type="search" name='search'>
   <i class="fa fa_custom fa-search"></i>
  
@@ -68,18 +74,18 @@ Jupiter Shop
 
 <div style="overflow-y:scroll;">
 <div style ="margin:auto;width:65%;">
-      <h1 style="text-align:center;color: #ddc9c9;">
+      <h1 style="text-align:center;color: #44e4e;">
       {% block list-name %}
       {% endblock list-name %}
       </h1>
         <div class="category-rows" id="category-rows">
 
             
-            <button id="swipe-bt-category-L" style='position:sticky' class="swipe_bt swipe_l" type="button">Left</button>
+            <i id="swipe-bt-category-L" style='position:sticky;cursor:pointer;font-size:25px;' class="fas fa-arrow-left swipe_bt swipe_l" type="button"></i>
 
             {% block categories %}
             {% endblock categories %}
-            <button id="swipe-bt-category-R" style='position:sticky' class="swipe_bt swipe_r" type="button">Right</button>
+            <i id="swipe-bt-category-R" style='position:sticky;cursor:pointer;font-size:25px;' class="fas fa-arrow-right swipe_bt swipe_r" type="button"></i>
 
 
             <script>

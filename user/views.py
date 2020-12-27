@@ -23,9 +23,16 @@ class UserVerification(View):
             is_signin = request.POST.get('signin')
             is_signup = request.POST.get('signup')
             given_uuid = request.POST.get('signup-uuid-given')
+            delete_user = request.POST.get('signup-delete-user')
+
+            if delete_user:
+                user = User.objects.get(id=request.session['user_obj'])
+                cache.delete(user.user_uuid)
+                request.session['user_obj'] = None
+                user.delete()
+                return redirect('user-login')
 
             if given_uuid:
-                request.session['user_obj'] = None
                 return redirect('verification', user_uuid=given_uuid)
 
             if is_signup:
@@ -111,25 +118,27 @@ def receive_user_uuid(request, user_uuid, *args, **kwargs):
 
     if user_uuid:
         try:
+
             user = cache.get(user_uuid)
             if user:
                 if user.is_active:
-                    return HttpResponse('No Need to verify. Done before')
+                    messages.add_message(request, messages.INFO,
+                                         'Already Verified')
                 else:
                     try:
                         user.is_active = True
                         user.save()
                         cache.delete(user_uuid)
-                        request.session['user_obj']=None
+                        request.session['user_obj'] = None
                         messages.add_message(request, messages.INFO,
                                              'Success :)')
                         login(request, user)
-                        return redirect('user-profile')
                     except Exception as e:
                         print(e)
-                        return redirect('user-login')
             else:
-                return HttpResponse('BAD verification key')
+                messages.add_message(request, messages.INFO,
+                                     'Bad Code')
+            return redirect('user-login')
 
         except Exception as e:
             print(e)

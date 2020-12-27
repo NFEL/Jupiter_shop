@@ -1,17 +1,18 @@
 @font-face {
-  font-family: iransans;
-  src: url("Iranian Sans.ttf");
-}
-@font-face {
   font-family: fontawsome;
   src: url("fontawesome-free-5.15.1-web/webfonts/fa-regular-400.ttf");
 }
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
 
 html, body{
   margin: 0;
   height: 100%;
   width: 100%;
-  font-family: iransans;
+  background: #f1f1f1;
+	font-family:  sans-serif;
+	
 }
 
 button{

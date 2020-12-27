@@ -74,14 +74,21 @@
   right: 0;
 }
 </style>
-<form method='POST' class="overlay-form" >
+<div  class="overlay-form">
+<form method='POST' style='background-color: #ffffff00;'>
 {% csrf_token %}
   <input name='signup-uuid-given' class="input-overlay" placeholder='Enter Verification Code'>
 
   <button class="button-check input-overlay" style='top:65%;width:10%;vertical-align:middle;'><span style='font-size:25px'>Check </span></button>
 
 </form>
+<form method='POST' style='background-color: #ffffff00;' >
+{% csrf_token %}
+  <input name='signup-delete-user' type='hidden' value='True'>
+  <button class="button-check input-overlay" style='top:75%;width:8%;height:8%;vertical-align:middle;'><span style='font-size:14px'>Forget it </span></button>
 
+</form>
+</div>
 
 
 {% endif %}
