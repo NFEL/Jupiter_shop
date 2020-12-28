@@ -1,5 +1,5 @@
 {% extends "Webpages/product page/product.html"%}
-
+{% load product_tags %}
 {% block brands %}
 
 {% if brands %}
@@ -118,7 +118,8 @@
         <div class="product-addToCart-bt" id="product-addToCart-bt" onclick="
             event.stopPropagation();
         ">
-            <button class="button " onclick="hello()" role="button">
+
+            <button class="button " onclick="location.href='http://127.0.0.1:8000{% url "add-to-cart" product.id %}?next=http://127.0.0.1:8000/;'" role="button">
                 <span>
                     <div class="product-price">{{product.my_price}}</div>
                 </span>

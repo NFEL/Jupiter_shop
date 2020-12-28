@@ -12,16 +12,6 @@ ten_req_done = Signal()
 hello_signal = Signal()
 
 
-def show_hello(*args,**kwargs):
-    print("hello to you")
-
-hello_signal.connect(show_hello)
-
-@receiver(hello_signal,weak=False,dispatch_uid="show_helo")
-def show_bye(*args, **kwargs):
-    print("bye")
-    print(hello_signal.receivers)
-
 
 
 global count
@@ -32,8 +22,6 @@ def check_request_integrity(sender,environ,*args, **kwargs):
     count = count + 1
     print(f'so far you have done {count} requests!')
 
-    if count > 5 :
-        hello_signal.send(sender=Profile)
 
 # request_started.connect(check_request_integrity)
 

@@ -1,5 +1,8 @@
 {% load static %}
+{% load product_tags %}
+{% load cache %}
 
+{% cache None  p-page %}
 <!DOCTYPE html>  
 <html>
 
@@ -47,6 +50,10 @@
 
 <script>
     var removeSuccess;
+
+    function addproduct(product_id){
+        {{product_id|add_to_cart}}
+    };
 
     removeSuccess = function () {
         return jQuery('.button').removeClass('success');
@@ -121,7 +128,7 @@
 
 
 </head>
-
+{% endcache %}
 <body>
     <div class="content-product" id="content">
 

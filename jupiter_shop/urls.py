@@ -12,7 +12,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('stores/', include('store.urls')),
     path('user/',include('user.urls')),
-    # path('',Landing.as_view()),
+    
+    path('cart/',include('pardakht.urls')),
+    
     path('', include('product.urls')),
 
     path('__debug__/', include(debug_toolbar.urls)),

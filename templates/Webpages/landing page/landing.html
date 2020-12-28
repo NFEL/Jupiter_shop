@@ -1,146 +1,172 @@
 {% load static %}
+{% load cache %}
+{% load product_tags %}
 
+{% cache None base-html-dependecies %}
 <html lang="en">
+
 <head>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-<link rel="stylesheet" href="{% static 'css/landing.css' %}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<style>
-@font-face {
-  font-family: iransans;
-  src: url({% static 'font/Iranian_Sans.ttf' %});
-}
-</style>
+  <style>
+    @font-face {
+      font-family: iransans;
+      src: url({% static 'font/Iranian_Sans.ttf' %});
+    }
+  </style>
 
 </head>
-<body >
-  
+
+<body>
+
   <script>var flag = false;
-    function showuser()
-    {
-      if (flag == false){
+    function showuser() {
+      if (flag == false) {
         flag = true;
         document.getElementById("showuuser").style.visibility = "visible";
-        
-        }
-        else{
-          flag = false;
-          document.getElementById("showuuser").style.visibility = "hidden";
-          
-          }
-  
-    }</script>
 
-
-<script>var flag2 = false;
-  function showcattech()
-  {
-    if (flag2 == false){
-      flag2 = true;
-      document.getElementById("showtech").style.visibility = "visible";
-      document.getElementById("hidden").style.visibility = "hidden";
       }
-      else{
+      else {
+        flag = false;
+        document.getElementById("showuuser").style.visibility = "hidden";
+
+      }
+
+    }
+
+
+  </script>
+
+
+  <script>var flag2 = false;
+
+    function showcattech() {
+      if (flag2 == false) {
+        flag2 = true;
+        document.getElementById("showtech").style.visibility = "visible";
+        document.getElementById("hidden").style.visibility = "hidden";
+      }
+      else {
         flag2 = false;
         document.getElementById("showtech").style.visibility = "hidden";
         document.getElementById("hidden").style.visibility = "visible";
-        }
+      }
 
-  }</script>
+    }</script>
 
-<div class="header"> 
-    
-<form class="searchbar" action="" method='GET'>
-  <input type="search" name='search'>
-  <i class="fa fa_custom fa-search"></i>
- 
-</form>
+  <div class="header">
+
+    <form class="searchbar" action="" method='GET'>
+      <input type="search" name='search'>
+      <i class="fa fa_custom fa-search"></i>
+
+    </form>
 
 
-<button onclick="window.location.href='http://{{request.META.HTTP_HOST}}{% url 'user-login' %}';"  class="acount"><i class="fa fa_custom fa-user"></i></button>
-<button class="info"><i class="fa fa_custom fa-question"></i></button>
+    <button onclick="window.location.href='http://{{request.META.HTTP_HOST}}{% url 'user-login' %}';" class="acount"><i
+        class="fa fa_custom fa-user"></i></button>
+    <button class="info"><i class="fa fa_custom fa-question"></i></button>
 
-</div>
-<a href='{% url 'categories' %}'>
+  </div>
+  <a href='{% url 'categories' %}'>
 
-<h1 style="text-align:center">
-Jupiter Shop
-</h1>
-</a>
+    <h1 style="text-align:center">
+      Jupiter Shop
+    </h1>
+  </a>
+{% endcache %}
 
-<div style="overflow-y:scroll;">
-<div style ="margin:auto;width:65%;">
-      <h1 style="text-align:center;color: #44e4e;">
-      {% block list-name %}
-      {% endblock list-name %}
+
+
+
+  <div style="overflow-y:scroll;">
+    <div style="margin:auto;width:65%;">
+      <h1 style="text-align:center;color:#44e4e;">
+        {% block list-name %}
+        {% endblock list-name %}
       </h1>
-        <div class="category-rows" id="category-rows">
+      <div class="category-rows" id="category-rows">
 
-            
-            <i id="swipe-bt-category-L" style='position:sticky;cursor:pointer;font-size:25px;' class="fas fa-arrow-left swipe_bt swipe_l" type="button"></i>
+{% comment %} {% cache None landing-whole-page %} {% endcomment %}
 
-            {% block categories %}
-            {% endblock categories %}
-            <i id="swipe-bt-category-R" style='position:sticky;cursor:pointer;font-size:25px;' class="fas fa-arrow-right swipe_bt swipe_r" type="button"></i>
+        <i id="swipe-bt-category-L" style='position:sticky;cursor:pointer;font-size:25px;'
+          class="fas fa-arrow-left swipe_bt swipe_l" type="button"></i>
+
+        {% block categories %}
+        {% endblock categories %}
+        <i id="swipe-bt-category-R" style='position:sticky;cursor:pointer;font-size:25px;'
+          class="fas fa-arrow-right swipe_bt swipe_r" type="button"></i>
 
 
-            <script>
-                const buttonRight = document.getElementById('swipe-bt-category-R');
-                const buttonLeft = document.getElementById('swipe-bt-category-L');
+        <script>
+          const buttonRight = document.getElementById('swipe-bt-category-R');
+          const buttonLeft = document.getElementById('swipe-bt-category-L');
 
-                buttonRight.onclick = function () {
-                    document.getElementById('category-rows').scrollLeft += 250;
-                };
-                buttonLeft.onclick = function () {
-                    document.getElementById('category-rows').scrollLeft -= 250;
-                };
-            </script>
-        </div>
-        {% block products-inline %}
-        
-        {% endblock products-inline %}
-</div>
+          buttonRight.onclick = function () {
+            document.getElementById('category-rows').scrollLeft += 250;
+          };
+          buttonLeft.onclick = function () {
+            document.getElementById('category-rows').scrollLeft -= 250;
+          };
+        </script>
+      </div>
+      {% block products-inline %}
+
+      {% endblock products-inline %}
+    </div>
 
   </div>
 
 
-<div class="footer">
-  <button class="tools"><i class="fa fa_custom fa-user-friends"></i></button>
-  <button onclick="showta()" class="cart"><i class="fa fa_custom fa-shopping-cart"></i></button>
+  <div class="footer">
+    <button class="tools"><i class="fa fa_custom fa-user-friends"></i></button>
 
-  <script>var flag = false;
-    function showta()
-    {
-      if (flag == false){
-        flag = true;
-        document.getElementById("showtable").style.visibility = "visible";
-        
-        }
-        else{
-          flag = false;
-          document.getElementById("showtable").style.visibility = "hidden";
-          }
-  
-    }</script>
+    <button id="show-cart-btn" class="cart showing-cart-on-hover"><i class="fa fa_custom fa-shopping-cart"></i></button>
+    <table id="show-cart" class="showing-cart-on-hover" width='10%' height='10%'>
+      <tr>
+        <th><a href="{% url 'cart' %}" style="font-size: large;">Cart</a></th>
+      </tr>
+      {% for item in request.cart_items %}
 
-  <table id="showtable" style="width:10%">
-    <tr>
-      <th>purchases</th>
-    </tr>
-    <tr>
-      <td>purchase 1</td>
-    </tr>
-    <tr>
-      <td>purchase 2</td>
-    </tr>
-    <tr>
-      <td>total price:.....</td>
-    </tr>
-  </table>
-</div>
+      <tr>
+        <td>{{item.product.name}} - {{item.qty}} - {{item.product.my_price|multi:item.qty}} </td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td height='30px'>total price: {{request.cart_total}} </td>
+      </tr>
+    </table>
+
+
+{% comment %} {% endcache %} {% endcomment %}
+{% cache None base-htmls %}
+
+    <script>
+
+      var btn = document.getElementById("show-cart-btn");
+      var flag = false;
+
+
+      $(".showing-cart-on-hover").hover(function () {
+
+        document.getElementById("show-cart").style.visibility = "visible";
+
+
+      }, function () {
+        document.getElementById("show-cart").style.visibility = "hidden";
+      }
+
+      );
+
+    </script>
+
+  </div>
 </body>
+
 </html>
+{% endcache %}

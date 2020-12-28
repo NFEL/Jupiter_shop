@@ -52,19 +52,20 @@ class UserVerification(View):
 
                     if email and phone_number:
                         profile_obj = User.objects.create(
-                            username=name, email=email, phonenumber=phone_number, password=password)
+                            username=name, email=email, phonenumber=phone_number)
                     elif not email and phone_number:
                         profile_obj = User.objects.create(
-                            username=name, phonenumber=phone_number, password=password)
+                            username=name, phonenumber=phone_number)
                     elif email and not phone_number:
                         profile_obj = User.objects.create(
-                            username=name, email=email, password=password)
+                            username=name, email=email)
                     if not email and not phone_number:
                         messages.add_message(request, messages.ERROR,
                                              'SomeThing to get to know you Friend ...')
                         return redirect('user-login')
 
                     if profile_obj:
+                        profile_obj.set_password(password)
                         request.session['user_obj'] = profile_obj.id
                     return redirect('user-login')
                 except IntegrityError as e:

@@ -128,11 +128,10 @@ input{
     position: fixed;
     left: 5%;
     bottom:5%;
-    background-color: #ddd;
-    border:red;
+
     padding: 15px 20px;
     text-align: center;
-    text-decoration: violet;
+    
     display: flex;
     margin: 10px 2px;
     cursor: pointer;
@@ -148,16 +147,18 @@ input{
   
 
   table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
+    border: 0.1px solid rgb(255, 237, 237);
+    /* border-collapse: collapse; */
   }
   table{
     position: fixed;
     left: 5%;
-    top: 78%;
-    background-color: greenyellow;
-    border-radius: 10%;
-    border: mediumblue;
+    bottom: 5%;
+    overflow-y: scroll;
+    color: aliceblue;
+    background: linear-gradient(to right, #664944, #9b2d47);
+    background-repeat: no-repeat;
+    border-radius: 3%;
     visibility: hidden;
   }
 

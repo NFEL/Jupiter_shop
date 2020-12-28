@@ -1,7 +1,9 @@
 from django.db import models
-from django.utils.translation import gettext as _
+from django.dispatch import receiver
+from django.core.cache import cache,utils
 from django.contrib.auth import get_user_model
-from django.db.models import UniqueConstraint, Avg
+from django.utils.translation import gettext as _
+from django.db.models import UniqueConstraint, Avg,signals
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 User = get_user_model()
@@ -84,6 +86,7 @@ class Product(models.Model):
 
     def my_rate(self):
         return self.productcomment_set.all().aggregate(Avg('rate')).get('rate__avg',None)
+    
     def my_price(self):
         if self.productprice_set.all():
             return self.productprice_set.all().order_by('-datetime__minute')[0].price
@@ -137,3 +140,23 @@ class ProductComment(models.Model):
     rate = models.FloatField(_(""),validators=[MinValueValidator(0), MaxValueValidator(5)],)
     text = models.CharField(_(""), max_length=350)
 
+
+##cahce for diffrent parts of page
+# @receiver(signals.post_save,sender=Product)
+# @receiver(signals.post_save,sender=Category)
+# @receiver(signals.post_save,sender=SubCategory)
+# @receiver(signals.post_save,sender=SubCategory)
+# @receiver(signals.post_save,sender=SubCategory)
+# @receiver(signals.post_save,sender=SubCategory)
+# @receiver(signals.post_save)
+def update_product_view(sender, instance, **kwargs):
+    """
+    docstring
+    """
+    print('hey')
+    key = utils.make_template_fragment_key('landing-whole-page')
+    try:
+        cache.delete(key)
+    except Exception as e:
+        raise ValueError(e)
+    

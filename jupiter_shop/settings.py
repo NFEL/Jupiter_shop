@@ -92,7 +92,6 @@ INSTALLED_APPS = [
 
     'debug_toolbar',
     'debug_panel',
-    # 'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -103,6 +102,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'user.middleware.CartMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
