@@ -6,20 +6,21 @@ from pardakht.models import Cart
 
 register = template.Library()
 
+
 @register.filter()
 def add_to_cart(value):
-    print(value)
+
     try:
         product_obj = Product.objects.get(id=value)
-        print(product_obj)
     except:
         pass
+
 
 @register.filter(is_safe=True)
 def multi(value, arg):
     return value * arg
     # print(arg)
-    
+
 
 # @register.filter(is_safe=True)
 # def comma_seperator(value, arg):

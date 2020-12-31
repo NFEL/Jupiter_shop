@@ -16,9 +16,6 @@ class CartMiddleware(MiddlewareMixin):
             if session_cart != None:
                 for item in session_cart:
                     try:
-                        # cart.product.add(
-                        # Product.objects.get(id=item[0])
-                        # )
                         c = CartItems.objects.create(
                             product=Product.objects.get(id=item[0]),
                             cart=cart,

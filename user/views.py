@@ -1,3 +1,4 @@
+import re,threading
 from django.contrib import auth
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -15,6 +16,15 @@ class UserVerification(View):
     context = {}
 
     def get(self, request, *args, **kwargs):
+        user_id = request.session.get('user_obj', None)
+        if user_id:
+            user_obj = User.objects.get(id=user_id)
+            if not user_obj.is_active and not cache.get(user_obj.user_uuid):
+                # user = User.objects.get(id=request.session['user_obj'])
+                cache.delete(user_obj.user_uuid)
+                request.session['user_obj'] = None
+                user_obj.delete()
+                return redirect('user-login')
 
         return render(request, self.template, self.context)
 
@@ -22,8 +32,37 @@ class UserVerification(View):
         try:
             is_signin = request.POST.get('signin')
             is_signup = request.POST.get('signup')
+            is_forgotpass = request.POST.get('forgot-password-form')
             given_uuid = request.POST.get('signup-uuid-given')
             delete_user = request.POST.get('signup-delete-user')
+            user_obj = request.session.get('user_obj', None)
+
+            if is_forgotpass:
+                email_phone = request.POST.get(
+                    'signin-forgot-password-email-phone')
+                new_pass = request.POST.get('signin-forgot-password-new')
+                regex_email = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
+                regex_phone = '^[a-z0-9]+'
+
+                is_phone = re.search(regex_phone, email_phone)
+                is_email = re.search(regex_email, email_phone)
+
+                type = ''
+                message = ''
+                if is_phone:
+                    type = 'phone'
+                else:
+                    message = 'Phone is not registered in system \n'
+                if is_email:
+                    type = 'email'
+                else:
+                    message = 'Email is not registered in system \n'
+                if not is_email and not is_phone:
+                    message = 'Niether one signed before'
+
+                messages.add_message(request, messages.ERROR, message)
+
+                self.reset_pass(new_pass, email_phone, type=type)
 
             if delete_user:
                 user = User.objects.get(id=request.session['user_obj'])
@@ -42,8 +81,6 @@ class UserVerification(View):
                 email = request.POST.get('signup-email')
 
                 try:
-                    profile_obj = None
-
                     for user in User.objects.all():
                         if name == user.username:
                             messages.add_message(request, messages.ERROR,
@@ -51,22 +88,28 @@ class UserVerification(View):
                             return redirect('user-login')
 
                     if email and phone_number:
-                        profile_obj = User.objects.create(
-                            username=name, email=email, phonenumber=phone_number)
+                        user_obj = User.objects.create_user(
+                            username=name, email=email, phonenumber=phone_number, password=password)
                     elif not email and phone_number:
-                        profile_obj = User.objects.create(
-                            username=name, phonenumber=phone_number)
+                        user_obj = User.objects.create_user(
+                            username=name, phonenumber=phone_number, password=password)
                     elif email and not phone_number:
-                        profile_obj = User.objects.create(
-                            username=name, email=email)
+                        user_obj = User.objects.create_user(
+                            username=name, email=email, password=password)
                     if not email and not phone_number:
                         messages.add_message(request, messages.ERROR,
-                                             'SomeThing to get to know you Friend ...')
+                                             'SomeThing to get to know you my friend ...')
                         return redirect('user-login')
 
-                    if profile_obj:
-                        profile_obj.set_password(password)
-                        request.session['user_obj'] = profile_obj.id
+                    if user_obj:
+                        request.session['user_obj'] = user_obj.id
+                        if not user_obj.phonenumber:
+                            messages.add_message(request, messages.ERROR,
+                                                 'Check Your inbox ...')
+                        else:
+                            messages.add_message(request, messages.ERROR,
+                                                 'Enter the key generated for you...')
+
                     return redirect('user-login')
                 except IntegrityError as e:
                     print(e)
@@ -99,6 +142,24 @@ class UserVerification(View):
             print(e)
             return redirect('user-login')
 
+    def reset_pass(self, new_pass, email_phone, type):
+        if not type:
+            return False
+        elif type == 'phone':
+            user = User.objects.get(phonenumber=email_phone)
+            # reset_pass_thread = threading.Thread(target=validatePhone_reset_pass)
+            user.set_password(new_pass)
+            user.save()
+            print('done')
+            return True
+        elif type == 'email':
+            user = User.objects.get(email=email_phone)
+            user.set_password(new_pass)
+            user.save()
+
+            return True
+        return False
+
 
 class UserProfile(View):
 
@@ -119,7 +180,6 @@ def receive_user_uuid(request, user_uuid, *args, **kwargs):
 
     if user_uuid:
         try:
-
             user = cache.get(user_uuid)
             if user:
                 if user.is_active:

@@ -1,5 +1,6 @@
 import os
 import uuid
+import threading,time,logging
 from random import randrange
 from django.db import models
 from django.core.cache import cache
@@ -10,7 +11,7 @@ from django.core.mail import EmailMessage
 
 class User(AbstractUser):
     user_uuid = models.CharField(max_length=36, blank=True)
-    phonenumber = models.CharField(max_length=12, null=False)
+    phonenumber = models.CharField(max_length=12, blank=True,null=True)
 
     user_join_date = models.DateField(auto_now_add=True)
 
@@ -25,16 +26,28 @@ def reic(sender, instance, *args, **kwargs):
     if not cache.get(instance.user_uuid) and not instance.is_active:
         if instance.email and isinstance(instance.email, str):
             instance.user_uuid = uuid.uuid4()
-            msg = EmailMessage(
-                'Signup via Email',
-                f'<a href="http://127.0.0.1:8000/user/verificationcode/{instance.user_uuid}">Verify me</a>',
-                os.getenv('EMAIL_USERNAME'),
-                [instance.email, ])
-            msg.content_subtype = "html"
-            msg.send()
-            cache.set(instance.user_uuid, instance, timeout=60*2)
-            instance.save()
-
+            def send_mail(instance):
+                try:
+                    start = time.time_ns()
+                    msg = EmailMessage(
+                        'Signup via Email',
+                        f'<a href="http://127.0.0.1:8000/user/verificationcode/{instance.user_uuid}">Verify me</a>',
+                        os.getenv('EMAIL_USERNAME'),
+                        [instance.email, ])
+                    msg.content_subtype = "html"
+                    msg.send()
+                    end = time.time_ns()
+                    cache.set(instance.user_uuid, instance, timeout=60*2)
+                    instance.save()
+                    print('elapsed time : ',(end-start)/1000000000)
+                except Exception as e:
+                    print(type(e))
+                    instance.delete()
+                    
+            threading.Thread(target=send_mail,args=(instance,)).start()
+                # messages.add_message(request, messages.ERROR,
+                #                                  'User exists ... ')
+            
         if instance.phonenumber:
             instance.user_uuid = str(randrange(10000, 99999))
 
@@ -44,21 +57,20 @@ def reic(sender, instance, *args, **kwargs):
             # response = api.sms_send( params)
             # print(response)
 
-            import ghasedak
-            sms = ghasedak.Ghasedak(
-                "b9c691f59feea69cc4f28be37d0d2d655445a9098fdc702a1697d9fc499267dd")
-            print(
-                sms.send({'message': f"Your Verification code is \n {instance.user_uuid}",
-                          'receptor': instance.phonenumber,  'linenumber': "10008566"})
-            )
-            cache.set(instance.user_uuid, instance, timeout=60*2)
+            # import ghasedak
+            # sms = ghasedak.Ghasedak(
+            #     "b9c691f59feea69cc4f28be37d0d2d655445a9098fdc702a1697d9fc499267dd")
+            # print(
+            #     sms.send({'message': f"Your Verification code is \n {instance.user_uuid}",
+            #             'receptor': instance.phonenumber,  'linenumber': "10008566"})
+            # )
+            cache.set(instance.user_uuid, instance, timeout=60*3)
+            print(instance.user_uuid)
             instance.save()
 
-            # send_verification()
         if not (instance.email and isinstance(instance.email, str) or instance.phonenumber):
             instance.delete()
-        print(instance.user_uuid)
-
+        
 
 post_save.connect(reic, weak=False, sender=User)
 

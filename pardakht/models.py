@@ -41,10 +41,6 @@ class CartItems(models.Model):
     def my_price(self):
         return self.product.my_price() * self.qty
     
-    def save(self, *args, **kwargs):
-        # if self.id :
-        #     self.qty += 1         
-        return super().save(*args,**kwargs)
     
     def __str__(self) -> str:
         return f'{self.product.name} -> {self.qty}'

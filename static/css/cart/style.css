@@ -120,7 +120,37 @@ Side note: I know that this style of nesting in SASS doesn't result in the most 
     background-color: #c66;
     color: #fff;
     font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium";
-    font-size: 12px;
+    font-size: 12px;$bg-color: #ff8888; //start color
+$stops: 100; //smoothness
+$time: 20s; //duration of animation
+$hue-range: 20; //of 360deg
+
+body{ 
+  background-color: $bg-color; 
+  -webkit-animation: colorChange $time linear 0s infinite;
+  animation: colorChange $time linear 0s infinite ;
+}
+
+@-webkit-keyframes colorChange{
+  @for $i from 0 through $stops{
+    $old-color: adjust-hue($bg-color, (360/$stops)*$i);
+    $new-color: adjust-hue($bg-color, (360/$stops)*$i + $hue-range);
+    #{$i}% {
+      background: -webkit-linear-gradient(left, $old-color, $new-color);
+      background: linear-gradient(to right, $old-color, $new-color);
+    }
+  } 
+}
+@keyframes colorChange{
+  @for $i from 0 through $stops{
+    $old-color: adjust-hue($bg-color, (360/$stops)*$i);
+    $new-color: adjust-hue($bg-color, (360/$stops)*$i + $hue-range);
+    #{$i}% {
+      background: linear-gradient(to right, $old-color, $new-color);
+    }
+  } 
+}
+
     border-radius: 3px;
     height:25px;
   }
@@ -240,4 +270,3 @@ Side note: I know that this style of nesting in SASS doesn't result in the most 
       width: 40%;
     }
   }
-  
