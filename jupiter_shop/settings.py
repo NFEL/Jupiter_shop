@@ -66,13 +66,10 @@ DEBUG_TOOLBAR_CONFIG = {
 
 SECRET_KEY = os.getenv('APP_SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -89,7 +86,8 @@ INSTALLED_APPS = [
     'address',
     'pardakht',
 
-
+    'provider',
+    'provider.oauth2',
     'debug_toolbar',
     'debug_panel',
 ]
@@ -102,9 +100,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'provider.oauth2.middleware.Oauth2UserMiddleware',
     'user.middleware.CartMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.RemoteUserBackend',
+)
 
 ROOT_URLCONF = 'jupiter_shop.urls'
 

@@ -16,9 +16,19 @@ from .models import Category, Product, ProductBrand, ProductImage, SubCategory, 
 from .form import AddCategory
 
 
-class Landing(ListView):
+class SearchMixin():
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.GET.get('search'):
+            self.p_list = self.p_list.filter(
+            name__contains=self.request.GET.get('search'))
+        return context 
+
+class Landing(SearchMixin, ListView):
     login_url = '/admin/'
     model = Category
+    template_name = 'index.html'
+    context_object_name = 'cat_list'
 
     def __init__(self, **kwargs) -> None:
         self.p_list = Product.objects.all()
@@ -33,16 +43,16 @@ class Landing(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        if self.request.GET.get('search'):
-            self.p_list = self.p_list.filter(
-            name__contains=self.request.GET.get('search'))
         context['product_list'] = self.p_list
+        context['title'] = "Category"
         return context
 
 
-class SubCategories(ListView):
+class SubCategories(SearchMixin,ListView):
     model = SubCategory
+    template_name='index.html'
+    context_object_name = 'sub_cat_list'
+    
 
     def __init__(self, **kwargs) -> None:
         self.p_list = Product.objects.all()
@@ -76,30 +86,29 @@ class SubCategories(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-
         if self.request.GET.get('search'):
             self.p_list = self.p_list.filter(
                 name__contains=self.request.GET.get('search'))
         context['product_list'] = self.p_list.filter(
             category__title=self.request.resolver_match.kwargs.get('category'))
+        context['title'] = "Sub Category"
         return context
 
 
-class Products(ListView):
+class Products(SearchMixin,ListView):
 
     model = Product
-
+    template_name='index.html'
     context_object_name = 'product_list'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # pbrands = ProductBrand.objects.all()
 
-        # sub_category_obj = get_object_or_404(
-        #     SubCategory, title=self.request.GET.get('sub-category', None))
-
-        # ProductBrand.objects.select_related('')
-        context['brands'] = ProductBrand.objects.all()
+        sub_category = self.request.GET.get('sub-category', None)
+        if sub_category:
+            brands = SubCategory.my_brands(sub_category)
+            context['brand_list'] = brands
+        context['title'] = "Brands"
         return context
 
     def get_queryset(self):
@@ -122,22 +131,10 @@ class Products(ListView):
         return queryset
 
 
-class ProductDetail(DetailView):
-    model = Product
-
-
-class AllProducts(ListView):
-    model = Product
-
-    def get_queryset(self):
-        category_obj = get_object_or_404(
-            Category, title=self.request.GET.get('title', None))
-        query_set = category_obj.sub_category_set.all()
-        return query_set
 
 
 def get_price(request, product_id, *args, **kwargs):
     price = 0
     p_obj = get_object_or_404(Product, id=product_id)
-    price = p_obj.productprice_set.all().order_by('-datetime__minute')[0].price
+    price = p_obj.productprice_set.all().order_by('-datetime__minute').values()
     return HttpResponse(price)

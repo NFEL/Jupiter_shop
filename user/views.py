@@ -146,8 +146,19 @@ class UserVerification(View):
         if not type:
             return False
         elif type == 'phone':
+            # def validatePhone_reset_pass():
+                
+            #     import ghasedak
+            #     sms = ghasedak.Ghasedak(
+            #         "b9c691f59feea69cc4f28be37d0d2d655445a9098fdc702a1697d9fc499267dd")
+            #     print(
+            #         sms.send({'message': f"Your Verification code is \n {instance.user_uuid}",
+            #                 'receptor': instance.phonenumber,  'linenumber': "10008566"})
+            #     )
+            
+            # reset_pass_thread = threading.Thread(target=validatePhone_reset_pass).start()
+            
             user = User.objects.get(phonenumber=email_phone)
-            # reset_pass_thread = threading.Thread(target=validatePhone_reset_pass)
             user.set_password(new_pass)
             user.save()
             print('done')
@@ -159,6 +170,8 @@ class UserVerification(View):
 
             return True
         return False
+
+
 
 
 class UserProfile(View):

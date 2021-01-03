@@ -11,9 +11,14 @@ from django.core.mail import EmailMessage
 
 class User(AbstractUser):
     user_uuid = models.CharField(max_length=36, blank=True)
-    phonenumber = models.CharField(max_length=12, blank=True,null=True)
+    phonenumber = models.CharField(max_length=12, blank=True,null=True,unique=True)
 
     user_join_date = models.DateField(auto_now_add=True)
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields= ['phonenumber','email'],name='only one email / phone per user'),
+            ]
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -64,7 +69,7 @@ def reic(sender, instance, *args, **kwargs):
             #     sms.send({'message': f"Your Verification code is \n {instance.user_uuid}",
             #             'receptor': instance.phonenumber,  'linenumber': "10008566"})
             # )
-            cache.set(instance.user_uuid, instance, timeout=60*3)
+            cache.set(instance.user_uuid, instance, timeout=60*2)
             print(instance.user_uuid)
             instance.save()
 
@@ -89,3 +94,4 @@ class Profile(models.Model):
             return f'{self.ful_name} - {self.phonenumber}'
         else:
             return str(self.id)
+

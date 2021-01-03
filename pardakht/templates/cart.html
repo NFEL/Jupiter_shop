@@ -42,11 +42,11 @@
     </div>
     <div class="product-price">{{item.product.my_price}} </div>
     <div class="product-quantity">
-    {% comment %} <from method='POST' action="http://{{request.META.HTTP_HOST}}{% url 'set-qty-in-cart' item.product.id %}">
-    {% csrf_token %} {% endcomment %}
+    <from method='POST' action="http://{{request.META.HTTP_HOST}}{% url 'set-qty-in-cart' item.product.id %}">
+    {% csrf_token %} 
       <input type="number" name="set-qty" value="{{item.qty}}" min="1">
       <button type="submit">OK</button>
-      {% comment %} </form> {% endcomment %}
+    </form> 
     </div>
     <div class="product-removal">
       <button OnClick=" location.href='http://{{request.META.HTTP_HOST}}{% url 'add-to-cart' item.product.id %}?next=http://127.0.0.1:8000/cart/;'" class="remove-product" style='background-color: #6b6;font-size:17px;width:25px;height:25px;'>
@@ -110,7 +110,7 @@
       <button class="checkout">Checkout</button>
 
 </div>
-
+<!--
 <script>
 /* Set rates + misc */
 var taxRate = 0.05;
@@ -190,5 +190,5 @@ function removeItem(removeButton)
   });
 }
 </script>
-
+-->
 </body>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.query_utils import select_related_descend
 from django.dispatch import receiver
 from django.core.cache import cache,utils
 from django.contrib.auth import get_user_model
@@ -17,6 +18,14 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    
+    def my_brands(self):
+        return ProductBrand.objects.filter(brands__category = self)
+    
+    @classmethod
+    def my_brands(cls,title):
+        return ProductBrand.objects.filter(brands__category__title = title)
+
     class Meta:
         db_table = 'Category'
         managed = True
@@ -33,6 +42,13 @@ class SubCategory(models.Model):
 
     def __str__(self):
         return self.title
+
+    def my_brands(self):
+        return ProductBrand.objects.filter(brands__sub_category = self)
+    
+    @classmethod
+    def my_brands(cls,title):
+        return ProductBrand.objects.filter(brands__sub_category__title = title)
 
     class Meta:
         db_table = 'Sub Category'
@@ -65,7 +81,7 @@ class Product(models.Model):
     stock_count = models.IntegerField('مقدار باقیمانده', default=0)
     store = models.ForeignKey('store.Store', on_delete=models.CASCADE)
     brand = models.ForeignKey(ProductBrand, verbose_name=_(
-        "Product Brand"), on_delete=models.CASCADE,blank=True, null=True)
+        "Product Brand"), on_delete=models.CASCADE,blank=True, null=True,related_name='brands')
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name='products')
     # ممکن است در بعضی موارد محصول گروه بندی نشود
@@ -75,10 +91,6 @@ class Product(models.Model):
 
     
     image = models.ImageField(_("thumbtnail"), upload_to='products/images/')
-
-
-
-
     user_responsible = models.ForeignKey(User, verbose_name=_("Responsible User"), on_delete=models.CASCADE,blank=True, null=True)
 
     def __str__(self):

@@ -1,38 +1,120 @@
-{% extends "Webpages/product page/product.html"%}
+{% extends "base.html"%}
+{% load static %}
 {% load product_tags %}
-{% block brands %}
 
-{% if brands %}
-<div class="sub-category-rows" id="sub-category-rows">
 
-    <button id="swipe-bt-sub-category-R" class="swipe_bt_product swipe_r_product" type="button">Right</button>
-        {% for brand in brands %}
-            <a href="?brand={{brand.name}}">
-                    <div class="sub-category-items" id="sub-category-items">
-                        <div class="img_brand"><img src="http://127.0.0.1:8000/media/{{brand.image}}" alt="{{brand.name}}"></div>
-                    </div>
-                </a>
-        {% endfor %}
+{% block list-name %}
+{{title}}
+{% endblock list-name %}
 
-    <button id="swipe-bt-sub-category-L" class="swipe_bt_product swipe_l_product" type="button">Left</button>
-    <script>
-        const buttonRight = document.getElementById('swipe-bt-sub-category-R');
-        const buttonLeft = document.getElementById('swipe-bt-sub-category-L');
 
-        buttonRight.onclick = function () {
-            document.getElementById('sub-category-rows').scrollLeft += 250;
-        };
-        buttonLeft.onclick = function () {
-            document.getElementById('sub-category-rows').scrollLeft -= 250;
-        };
-    </script>
+{% block filter %}
+
+{% if request.user.is_staff %}
+<style>
+.filter-items-adding:hover{
+    box-shadow: inset 0px 0px 34px -11px rgba(186,71,167,1);
+    border-radius:5%;
+}
+</style>
+<div class="filter-items-adding" id='show-overlay' style="cursor:pointer">
+    <img src="/static/imgs/add.png" style="width:200px;height:200px;" >
+    <div class="addcat-overlay" id="adding-filter-overlay" style="visibility:hidden;">
+        <div class="addcat-overlay-dialog" >
+        
+            <div id='close_overlay' style="cursor:pointer">
+            <img src={% static 'imgs/close.png' %} width='75px' height='75px'>
+            close
+            </div>
+            <form method='POST' id="adding-filter" 
+            accept-charset="utf-8" enctype="multipart/form-data"
+            style="padding:15px;display:flex;flex-direction:column;row-gap:25px;">
+                {% csrf_token %}
+                <style>
+                .normal-input{
+                    width: 100%;
+                    padding: 12px 20px;
+                    margin: 8px 0;
+                    display: block;
+                    position:relative;
+                }
+                </style>
+                <input type="text" name="title" maxlength="35" required id="id_title" placeholder="Name" class="normal-input" >
+                <label for="id_description">Detail:</label>
+                <textarea name="description" cols="40" rows="10" id="id_description" style="text-align:center;">You can write detail here </textarea>
+                <label for="id_image">Image :</label>
+                <input type="file" name="image" accept="image/*" id="id_image" src={% static 'imgs/image-add.png' %} class="normal-input">
+                <button type="submit" >Add</button>
+            </form>
+        </div>
+    </div>
+
 </div>
+<script>
+$("#show-overlay").click(function(e) {
+   document.getElementById("adding-filter-overlay").style.visibility = "visible";
+   e.stopPropagation();
+});
+$("#close_overlay").click(function(e) {
+    document.getElementById("adding-filter-overlay").style.visibility ="hidden";
+   e.stopPropagation();
+});
+</script>
 {% endif %}
 
-{% endblock brands %}
+
+{% if cat_list %}
+    {% for cat in cat_list %}
+    <a href="{% url 'sub-categories' cat.title%}">
+            <div class="filter-items" id="sub-filter-items">
+
+            <div class="img_filter"><img src="http://127.0.0.1:8000/media/{{cat.image}}" alt="{{ cat.name }}"></div>
+
+            {% if request.user.perm.product.add_category %}
+            {% endif %}
+        </div>
+    </a>
+
+{% endfor %}
+{% endif %}
+
+{% if sub_cat_list %}
+    {% for cat in sub_cat_list %}
+     <a href="{% url 'products'%}?sub-category={{cat.title}}">
+            <div class="filter-items" id="sub-filter-items">
+
+            <div class="img_filter"><img src="http://127.0.0.1:8000/media/{{cat.image}}" alt="{{ cat.name }}"></div>
+
+            {% if request.user.perm.product.add_category %}
+            {% endif %}
+        </div>
+    </a>
+
+{% endfor %}
+{% endif %}
+
+{% if brand_list %}
+    {% for cat in brand_list %}
+    <a href="{% url 'products'%}?brand={{cat.name}}">
+            <div class="filter-items" id="sub-filter-items">
+
+            <div class="img_filter"><img src="http://127.0.0.1:8000/media/{{cat.image}}" alt="{{ cat.name }}"></div>
+
+            {% if request.user.perm.product.add_category %}
+            {% endif %}
+        </div>
+    </a>
+
+{% endfor %}
+{% endif %}
 
 
-{% block product-items %}
+{% endblock filter %}
+
+
+
+
+{% block products-inline %}
 
 {% for product in product_list %}
 
@@ -42,7 +124,7 @@
 
         <div class="product-overlay" id="{{product.id}}" style="visibility: hidden;">
             <div class="product-overlay-dialog">
-                <div class="product-overlay-dialog-id maxheight-setter"><h4>#{{product.id}}</h4></div>
+                <div class="product-overlay-dialog-id maxheight-setter"><h4>{{product.id}}</h4></div>
                 <div class="product-overlay-dialog-name maxheight-setter"><h2>{{product.name}}</h2></div>
 
                 {% if product.brand %}
@@ -62,18 +144,12 @@
                         
                         {% for image in product.my_images %}
                         <div class="box">
-
                             <img src="http://127.0.0.1:8000/media/{{image.image}}">
-                            {% comment %} <img src="{% url '' %}"> {% endcomment %}
-                            {% comment %} <img src="https://source.unsplash.com/1000x800"> {% endcomment %}
                             <span> {{image.name}} </span>
                         </div>
 
                         {% endfor %}
 
-
-
-                        
                     </div>
 
                 </div>
@@ -135,15 +211,10 @@
 
 {% endfor %}
                     
-{% endblock product-items %}
-
-{% block empty-products %}
-
 {% if request.user.is_staff %}
 
 <a class="product-empty product" href="{% url 'admin:product_product_add' %}?">
 </a>
 
 {% endif %}
-
-{% endblock empty-products %}
+{% endblock products-inline %}

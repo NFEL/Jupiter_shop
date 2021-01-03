@@ -1,0 +1,273 @@
+{% load static %}
+{% load cache %}
+{% load product_tags %}
+
+{% comment %} {% cache None base-html-dependecies %} {% endcomment %}
+<html lang="en">
+
+<head>
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    @font-face {
+      font-family: iransans;
+      src: url({% static 'font/Iranian Sans.ttf' %});
+    }
+
+    .product-empty {
+      background-image: url({% static 'imgs/add.png' %});
+    }
+
+  .button .icon {
+    top:25%;
+  }
+
+
+  </style>
+
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+
+  <link rel="stylesheet" href="{% static 'css/sub-product/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/sub-product/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/sub-product/overlay.css'%}">
+
+  <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+
+  {% comment %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> {% endcomment %}
+  {% comment %}
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> {% endcomment %}
+
+  <style>
+    @font-face {
+      font-family: iransans;
+      src: url({% static 'font/Iranian_Sans.ttf' %});
+    }
+  </style>
+
+  <script>
+
+    var btn = document.getElementById("show-cart-btn");
+    var flag = false;
+    $(".showing-cart-on-hover").hover(function () {
+      document.getElementById("show-cart").style.visibility = "visible";
+    }, function () {
+      document.getElementById("show-cart").style.visibility = "hidden";
+    });
+
+            var removeSuccess;
+
+        function addproduct(product_id) {
+            { { product_id | add_to_cart } }
+        };
+
+        removeSuccess = function () {
+            return jQuery('.button').removeClass('success');
+        };
+
+        jQuery(document).ready(function () {
+            return jQuery('.button').click(function () {
+                jQuery(this).addClass('success');
+                return setTimeout(removeSuccess, 3000);
+            });
+        });
+
+        function show_product(element_id) {
+
+            var visi = document.getElementById(element_id).style.visibility;
+            if (visi == "hidden") {
+                console.log($(element_id).focus())
+                {% comment %} $(element_id).fadeIn(); {% endcomment %}
+
+                document.getElementById(element_id).style.visibility = 'visible';
+                disableScroll();
+            } else {
+
+                document.getElementById(element_id).style.visibility = 'hidden';
+                enableScroll();
+            }
+        }
+
+        var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+
+        function preventDefault(e) {
+            e.preventDefault();
+        }
+
+        function preventDefaultForScrollKeys(e) {
+            if (keys[e.keyCode]) {
+                preventDefault(e);
+                return false;
+            }
+        }
+
+        // modern Chrome requires { passive: false } when adding event
+        var supportsPassive = false;
+        try {
+            window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+                get: function () { supportsPassive = true; }
+            }));
+        } catch (e) { }
+
+        var wheelOpt = supportsPassive ? { passive: false } : false;
+        var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+
+        // call this to Disable
+        function disableScroll() {
+            window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+            window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+            window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+            window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+        }
+
+        // call this to Enable
+        function enableScroll() {
+            window.removeEventListener('DOMMouseScroll', preventDefault, false);
+            window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+            window.removeEventListener('touchmove', preventDefault, wheelOpt);
+            window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+        }
+
+        const els = document.querySelectorAll("[type='radio']");
+        for (const el of els)
+            el.addEventListener("input", e => reorder(e.target, els));
+        reorder(els[0], els);
+
+        function reorder(targetEl, els) {
+            const nItems = els.length;
+            let processedUncheck = 0;
+            for (const el of els) {
+                const containerEl = el.nextElementSibling;
+                if (el === targetEl) {//checked radio
+                    containerEl.style.setProperty("--w", "100%");
+                    containerEl.style.setProperty("--l", "0");
+                }
+                else {//unchecked radios
+                    containerEl.style.setProperty("--w", `${100 / (nItems - 1)}%`);
+                    containerEl.style.setProperty("--l", `${processedUncheck * 100 / (nItems - 1)}%`);
+                    processedUncheck += 1;
+                }
+            }
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+  <div class="header">
+   
+   <!--Needs implementation -->
+    <button class="info"><i class="fa fa_custom fa-question"></i></button>
+
+    <form class="searchbar" action="" method='GET' style='
+    background: #a0a0a0;'>
+      <input type="search" name='search' style='
+    background: #a0a0a0;'>
+      <i class="fa fa_custom fa-search"></i>
+
+    </form>
+
+
+    <button onclick="window.location.href='http://{{request.META.HTTP_HOST}}{% url 'user-login' %}';" class="acount"><i
+        class="fa fa_custom fa-user"></i></button>
+    <a href='{% url 'categories' %}'>
+
+    <h1 style="text-align:center">
+      Jupiter Shop
+    </h1>
+  </a>
+  <h1 style="text-align:center;color:#44e4e;">
+        {% block list-name %}
+        {% endblock list-name %}
+      </h1>
+  </div>
+
+  {% comment %} {% endcache %} {% endcomment %}
+
+
+
+
+  <div style="overflow-y:scroll;">
+    <div style="margin:auto;width:65%;">
+      
+      <div class="filter-rows" id="filter-rows">
+
+        {% comment %} {% cache None landing-whole-page %} {% endcomment %}
+
+        <i id="swipe-bt-filter-L" style='position:sticky;cursor:pointer;font-size:25px;'
+          class="fas fa-arrow-left swipe_bt swipe_l" type="button"></i>
+
+        {% block filter %}
+        {% endblock filter %}
+
+        <i id="swipe-bt-filter-R" style='position:sticky;cursor:pointer;font-size:25px;'
+          class="fas fa-arrow-right swipe_bt swipe_r" type="button"></i>
+
+        <script>
+          const buttonRight = document.getElementById('swipe-bt-filter-R');
+          const buttonLeft = document.getElementById('swipe-bt-filter-L');
+
+          buttonRight.onclick = function () {
+            document.getElementById('filter-rows').scrollLeft += 250;
+          };
+          buttonLeft.onclick = function () {
+            document.getElementById('filter-rows').scrollLeft -= 250;
+          };
+        </script>
+      </div>
+
+
+    <div class="content-product" id="content">
+        <div class="products_v2">
+
+      {% block products-inline %}
+      {% endblock products-inline %}
+
+        </div>
+        <br>
+        <br>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer">
+    <button class="tools"><i class="fa fa_custom fa-user-friends"></i></button>
+
+    <button id="show-cart-btn" class="cart showing-cart-on-hover"><i class="fa fa_custom fa-shopping-cart"></i></button>
+    <table id="show-cart" class="showing-cart-on-hover" width='10%' height='10%'>
+      <tr>
+        <th><a href="{% url 'cart' %}" style="font-size: large;">Cart</a></th>
+      </tr>
+      {% for item in request.cart_items %}
+
+      <tr>
+        <td>{{item.product.name}} - {{item.qty}} - {{item.product.my_price|multi:item.qty}} </td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td height='30px'>total price: {{request.cart_total}} </td>
+      </tr>
+    </table>
+
+
+    {% comment %} {% endcache %} {% endcomment %}
+    {% cache None base-htmls %}
+
+
+  </div>
+</body>
+
+</html>
+{% endcache %}
