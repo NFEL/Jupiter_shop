@@ -10,6 +10,7 @@ from django.core.mail import EmailMessage
 
 
 class User(AbstractUser):
+    is_oauth = models.BooleanField(default=True)
     user_uuid = models.CharField(max_length=36, blank=True)
     phonenumber = models.CharField(max_length=12, blank=True,null=True,unique=True)
 
@@ -21,38 +22,37 @@ class User(AbstractUser):
             ]
 
     def save(self, *args, **kwargs):
-        if not self.id:
+        
+        if not self.id and not self.is_oauth :
             self.is_active = False
+            threading.Thread(target=reic(self)).start()
+            
         return super().save(*args, **kwargs)
 
 
-def reic(sender, instance, *args, **kwargs):
-
+def reic(instance):
+    
+    time.sleep(0.1)
     if not cache.get(instance.user_uuid) and not instance.is_active:
         if instance.email and isinstance(instance.email, str):
             instance.user_uuid = uuid.uuid4()
-            def send_mail(instance):
-                try:
-                    start = time.time_ns()
-                    msg = EmailMessage(
-                        'Signup via Email',
-                        f'<a href="http://127.0.0.1:8000/user/verificationcode/{instance.user_uuid}">Verify me</a>',
-                        os.getenv('EMAIL_USERNAME'),
-                        [instance.email, ])
-                    msg.content_subtype = "html"
-                    msg.send()
-                    end = time.time_ns()
-                    cache.set(instance.user_uuid, instance, timeout=60*2)
-                    instance.save()
-                    print('elapsed time : ',(end-start)/1000000000)
-                except Exception as e:
-                    print(type(e))
-                    instance.delete()
-                    
-            threading.Thread(target=send_mail,args=(instance,)).start()
-                # messages.add_message(request, messages.ERROR,
-                #                                  'User exists ... ')
-            
+            try:
+                start = time.time_ns()
+                msg = EmailMessage(
+                    'Signup via Email',
+                    f'<a href="http://127.0.0.1:8000/user/verificationcode/{instance.user_uuid}">Verify me</a>',
+                    os.getenv('EMAIL_USERNAME'),
+                    [instance.email, ])
+                msg.content_subtype = "html"
+                msg.send()
+                end = time.time_ns()
+                cache.set(instance.user_uuid, instance, timeout=60*2)
+                instance.save()
+                print('elapsed time : ',(end-start)/1000000000)
+            except Exception as e:
+                print(type(e))
+                instance.delete()
+                
         if instance.phonenumber:
             instance.user_uuid = str(randrange(10000, 99999))
 
@@ -77,7 +77,7 @@ def reic(sender, instance, *args, **kwargs):
             instance.delete()
         
 
-post_save.connect(reic, weak=False, sender=User)
+# post_save.connect(reic, weak=False, sender=User)
 
 
 class Profile(models.Model):

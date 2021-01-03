@@ -16,7 +16,7 @@ urlpatterns = [
     path('cart/',include('pardakht.urls')),
     
     path('', include('product.urls')),
-    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    # path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     # path('oauth2/', include('provider.oauth2.urls', namespace = 'oauth2')),
     path('__debug__/', include(debug_toolbar.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

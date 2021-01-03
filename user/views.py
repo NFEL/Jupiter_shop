@@ -1,9 +1,11 @@
-import re,threading
+import re
+import threading
 from django.contrib import auth
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import View
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, authenticate
+from allauth.account.views import logout
 from django.contrib import messages
 from django.core.cache import cache
 from django.db.utils import IntegrityError
@@ -75,10 +77,10 @@ class UserVerification(View):
                 return redirect('verification', user_uuid=given_uuid)
 
             if is_signup:
-                phone_number = request.POST.get('signup-phone_number')
-                password = request.POST.get('signup-password')
-                name = request.POST.get('signup-username')
-                email = request.POST.get('signup-email')
+                phone_number = request.POST.get('signup-phone_number') or None
+                password = request.POST.get('signup-password') or None
+                name = request.POST.get('signup-username') or None
+                email = request.POST.get('signup-email') or None
 
                 try:
                     for user in User.objects.all():
@@ -87,15 +89,8 @@ class UserVerification(View):
                                                  'User exists ... ')
                             return redirect('user-login')
 
-                    if email and phone_number:
-                        user_obj = User.objects.create_user(
-                            username=name, email=email, phonenumber=phone_number, password=password)
-                    elif not email and phone_number:
-                        user_obj = User.objects.create_user(
-                            username=name, phonenumber=phone_number, password=password)
-                    elif email and not phone_number:
-                        user_obj = User.objects.create_user(
-                            username=name, email=email, password=password)
+                    user_obj = User.objects.create_user(is_oauth=False,
+                                                        username=name, email=email, phonenumber=phone_number, password=password)
                     if not email and not phone_number:
                         messages.add_message(request, messages.ERROR,
                                              'SomeThing to get to know you my friend ...')
@@ -147,7 +142,7 @@ class UserVerification(View):
             return False
         elif type == 'phone':
             # def validatePhone_reset_pass():
-                
+
             #     import ghasedak
             #     sms = ghasedak.Ghasedak(
             #         "b9c691f59feea69cc4f28be37d0d2d655445a9098fdc702a1697d9fc499267dd")
@@ -155,9 +150,9 @@ class UserVerification(View):
             #         sms.send({'message': f"Your Verification code is \n {instance.user_uuid}",
             #                 'receptor': instance.phonenumber,  'linenumber': "10008566"})
             #     )
-            
+
             # reset_pass_thread = threading.Thread(target=validatePhone_reset_pass).start()
-            
+
             user = User.objects.get(phonenumber=email_phone)
             user.set_password(new_pass)
             user.save()
@@ -172,8 +167,6 @@ class UserVerification(View):
         return False
 
 
-
-
 class UserProfile(View):
 
     def get(self, request, *args, **kwargs):
@@ -186,6 +179,7 @@ class UserProfile(View):
 def logout_user(request, *args, **kwargs):
     if request.user.is_authenticated:
         logout(request)
+        request.session.flush()
     return redirect('user-login')
 
 

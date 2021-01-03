@@ -66,6 +66,9 @@ DEBUG_TOOLBAR_CONFIG = {
 
 SECRET_KEY = os.getenv('APP_SECRET_KEY')
 
+LOGIN_URL='/user/login/'
+LOGIN_REDIRECT_URL = '/'
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -79,7 +82,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-
+    'django.contrib.sites',
+    
     'product.apps.ProductConfig',
     'store',
     'user',
@@ -88,9 +92,13 @@ INSTALLED_APPS = [
 
     # 'provider',
     # 'provider.oauth2',
-    'oauth2_provider',
+    # 'oauth2_provider',
     'debug_toolbar',
     'debug_panel',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -112,12 +120,44 @@ MIDDLEWARE = [
 #     'django.contrib.auth.backends.RemoteUserBackend',
 # )
 # REST_FRAMEWORK = {
-    
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
 
-#         'rest_framework_simplejwt.authentication.JWTAuthentication',
-#     )
-# }
+AUTHENTICATION_BACKENDS = [
+    
+    # Needed to login by username in Django admin, regardless of `allauth`
+    # 'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+    
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        "APP": {
+            "client_id": "1029342288891-j8nb41ee0ucdb2vi4cen1ce6ah77gh3f.apps.googleusercontent.com",
+            "secret": "baxadmzN-4OmmaoYcGdB8qvS",
+        },
+        # These are provider-specific settings that can only be
+        # listed here:
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        }
+    }
+}
+
+SOCIALACCOUNT_ADAPTER  = 'user.adaptor.UserMakerAdaptor'
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_LOGOUT_ON_GET = True
+
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+SITE_ID = 1
 
 ROOT_URLCONF = 'jupiter_shop.urls'
 
@@ -137,6 +177,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 
 LOGGING = {

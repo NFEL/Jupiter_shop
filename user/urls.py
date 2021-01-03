@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,include
 from .views import UserVerification, UserProfile, logout_user, receive_user_uuid
 
 urlpatterns = [
@@ -7,4 +7,5 @@ urlpatterns = [
     path('profile/', UserProfile.as_view(), name='user-profile'),
     path('verificationcode/<str:user_uuid>',
          receive_user_uuid, name='verification'),
+    path('o/', include('allauth.urls')),
 ]
