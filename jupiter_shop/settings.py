@@ -86,8 +86,9 @@ INSTALLED_APPS = [
     'address',
     'pardakht',
 
-    'provider',
-    'provider.oauth2',
+    # 'provider',
+    # 'provider.oauth2',
+    'oauth2_provider',
     'debug_toolbar',
     'debug_panel',
 ]
@@ -100,16 +101,23 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'provider.oauth2.middleware.Oauth2UserMiddleware',
+    # 'provider.oauth2.middleware.Oauth2UserMiddleware',
     'user.middleware.CartMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'django.contrib.auth.backends.RemoteUserBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+#     'django.contrib.auth.backends.ModelBackend',
+#     'django.contrib.auth.backends.RemoteUserBackend',
+# )
+# REST_FRAMEWORK = {
+    
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     )
+# }
 
 ROOT_URLCONF = 'jupiter_shop.urls'
 

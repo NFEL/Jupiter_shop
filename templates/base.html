@@ -29,22 +29,17 @@
   </style>
 
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
 
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+  {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"> {% endcomment %}
 
   <link rel="stylesheet" href="{% static 'css/sub-product/style.css' %}">
   <link rel="stylesheet" href="{% static 'css/sub-product/button.css' %}">
   <link rel="stylesheet" href="{% static 'css/sub-product/overlay.css'%}">
 
   <link rel="stylesheet" href="{% static 'css/landing.css' %}">
-
-  {% comment %}
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> {% endcomment %}
-  {% comment %}
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css'%}">
+  <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
 
   <style>
     @font-face {
@@ -53,7 +48,116 @@
     }
   </style>
 
-  <script>
+ 
+</head>
+
+<body>
+
+  <div class="header">
+   
+   <!--Needs implementation -->
+    <button class="info"><i class="fa fa_custom fa-question"></i></button>
+
+    <form class="searchbar" action="" method='GET' style='
+    background: #a0a0a0;'>
+      <input type="search" name='search' style='
+    background: #a0a0a0;'>
+      <i class="fa fa_custom fa-search"></i>
+
+    </form>
+
+
+    <button onclick="window.location.href='http://{{request.META.HTTP_HOST}}{% url 'user-login' %}';" class="acount"><i
+        class="fa fa_custom fa-user"></i></button>
+    <a href='{% url 'categories' %}'>
+
+    <h1 style="text-align:center">
+      Jupiter Shop
+    </h1>
+  </a>
+  <h1 style="text-align:center;color:#44e4e;">
+        {% block list-name %}
+        {% endblock list-name %}
+      </h1>
+  </div>
+
+  {% comment %} {% endcache %} {% endcomment %}
+
+
+
+
+  <div style="overflow-y:scroll;">
+    <div style="margin:auto;width:65%;">
+      
+      <div class="filter-rows" id="filter-rows">
+
+        {% comment %} {% cache None landing-whole-page %} {% endcomment %}
+
+        <i id="swipe-bt-filter-L" style='position:sticky;cursor:pointer;font-size:25px;'
+          class="fas fa-arrow-left swipe_bt swipe_l" type="button"></i>
+
+        {% block filter %}
+        {% endblock filter %}
+
+        <i id="swipe-bt-filter-R" style='position:sticky;cursor:pointer;font-size:25px;'
+          class="fas fa-arrow-right swipe_bt swipe_r" type="button"></i>
+
+        <script>
+          const buttonRight = document.getElementById('swipe-bt-filter-R');
+          const buttonLeft = document.getElementById('swipe-bt-filter-L');
+
+          buttonRight.onclick = function () {
+            document.getElementById('filter-rows').scrollLeft += 250;
+          };
+          buttonLeft.onclick = function () {
+            document.getElementById('filter-rows').scrollLeft -= 250;
+          };
+        </script>
+      </div>
+
+
+    <div class="content-product" id="content">
+        <div class="products_v2">
+
+      {% block products-inline %}
+      {% endblock products-inline %}
+
+        </div>
+        <br>
+        <br>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer">
+    <button class="tools"><i class="fa fa_custom fa-user-friends"></i></button>
+
+    <button id="show-cart-btn" class="cart showing-cart-on-hover"><i class="fa fa_custom fa-shopping-cart"></i></button>
+    <table id="show-cart" class="showing-cart-on-hover" width='10%' height='10%'>
+      <tr>
+        <th><a href="{% url 'cart' %}" style="font-size: large;">Cart</a></th>
+      </tr>
+      {% for item in request.cart_items %}
+
+      <tr>
+        <td>{{item.product.name}} - {{item.qty}} - {{item.product.my_price|multi:item.qty}} </td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td height='30px'>total price: {{request.cart_total}} </td>
+      </tr>
+    </table>
+
+
+    {% comment %} {% endcache %} {% endcomment %}
+    
+
+
+  </div>
+
+ <script>
 
     var btn = document.getElementById("show-cart-btn");
     var flag = false;
@@ -160,114 +264,7 @@
 
     </script>
 
-</head>
 
-<body>
-
-  <div class="header">
-   
-   <!--Needs implementation -->
-    <button class="info"><i class="fa fa_custom fa-question"></i></button>
-
-    <form class="searchbar" action="" method='GET' style='
-    background: #a0a0a0;'>
-      <input type="search" name='search' style='
-    background: #a0a0a0;'>
-      <i class="fa fa_custom fa-search"></i>
-
-    </form>
-
-
-    <button onclick="window.location.href='http://{{request.META.HTTP_HOST}}{% url 'user-login' %}';" class="acount"><i
-        class="fa fa_custom fa-user"></i></button>
-    <a href='{% url 'categories' %}'>
-
-    <h1 style="text-align:center">
-      Jupiter Shop
-    </h1>
-  </a>
-  <h1 style="text-align:center;color:#44e4e;">
-        {% block list-name %}
-        {% endblock list-name %}
-      </h1>
-  </div>
-
-  {% comment %} {% endcache %} {% endcomment %}
-
-
-
-
-  <div style="overflow-y:scroll;">
-    <div style="margin:auto;width:65%;">
-      
-      <div class="filter-rows" id="filter-rows">
-
-        {% comment %} {% cache None landing-whole-page %} {% endcomment %}
-
-        <i id="swipe-bt-filter-L" style='position:sticky;cursor:pointer;font-size:25px;'
-          class="fas fa-arrow-left swipe_bt swipe_l" type="button"></i>
-
-        {% block filter %}
-        {% endblock filter %}
-
-        <i id="swipe-bt-filter-R" style='position:sticky;cursor:pointer;font-size:25px;'
-          class="fas fa-arrow-right swipe_bt swipe_r" type="button"></i>
-
-        <script>
-          const buttonRight = document.getElementById('swipe-bt-filter-R');
-          const buttonLeft = document.getElementById('swipe-bt-filter-L');
-
-          buttonRight.onclick = function () {
-            document.getElementById('filter-rows').scrollLeft += 250;
-          };
-          buttonLeft.onclick = function () {
-            document.getElementById('filter-rows').scrollLeft -= 250;
-          };
-        </script>
-      </div>
-
-
-    <div class="content-product" id="content">
-        <div class="products_v2">
-
-      {% block products-inline %}
-      {% endblock products-inline %}
-
-        </div>
-        <br>
-        <br>
-
-    </div>
-
-  </div>
-
-
-  <div class="footer">
-    <button class="tools"><i class="fa fa_custom fa-user-friends"></i></button>
-
-    <button id="show-cart-btn" class="cart showing-cart-on-hover"><i class="fa fa_custom fa-shopping-cart"></i></button>
-    <table id="show-cart" class="showing-cart-on-hover" width='10%' height='10%'>
-      <tr>
-        <th><a href="{% url 'cart' %}" style="font-size: large;">Cart</a></th>
-      </tr>
-      {% for item in request.cart_items %}
-
-      <tr>
-        <td>{{item.product.name}} - {{item.qty}} - {{item.product.my_price|multi:item.qty}} </td>
-      </tr>
-      {% endfor %}
-      <tr>
-        <td height='30px'>total price: {{request.cart_total}} </td>
-      </tr>
-    </table>
-
-
-    {% comment %} {% endcache %} {% endcomment %}
-    {% cache None base-htmls %}
-
-
-  </div>
 </body>
 
 </html>
-{% endcache %}

@@ -27,7 +27,7 @@ class CartMiddleware(MiddlewareMixin):
                 del request.session['cart']
             request.cart = cart
         else:
-            if request.session.get('cart', None) == None:
+            if request.session.get('cart', 1) == 1:
                 print('Empty cart created for Unauthorized user')
                 request.session['cart'] = []
 
