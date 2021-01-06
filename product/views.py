@@ -101,6 +101,12 @@ class Products(SearchMixin,ListView):
     template_name='index.html'
     context_object_name = 'product_list'
 
+
+    def __init__(self, **kwargs) -> None:
+        self.p_list = Product.objects.all()
+        super().__init__(**kwargs)
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 

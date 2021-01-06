@@ -68,7 +68,7 @@ $("#close_overlay").click(function(e) {
     <a href="{% url 'sub-categories' cat.title%}">
             <div class="filter-items" id="sub-filter-items">
 
-            <div class="img_filter"><img src="{{request.META.HTTP_HOST}}/media/{{cat.image}}" alt="{{ cat.name }}"></div>
+            <div class="img_filter"><img src="{{cat.image}}" alt="{{ cat.name }}"></div>
 
             {% if request.user.perm.product.add_category %}
             {% endif %}
@@ -83,7 +83,7 @@ $("#close_overlay").click(function(e) {
      <a href="{% url 'products'%}?sub-category={{cat.title}}">
             <div class="filter-items" id="sub-filter-items">
 
-            <div class="img_filter"><img src="{{request.META.HTTP_HOST}}/media/{{cat.image}}" alt="{{ cat.name }}"></div>
+            <div class="img_filter"><img src="{{cat.image}}" alt="{{ cat.name }}"></div>
 
             {% if request.user.perm.product.add_category %}
             {% endif %}
@@ -98,7 +98,7 @@ $("#close_overlay").click(function(e) {
     <a href="{% url 'products'%}?brand={{cat.name}}">
             <div class="filter-items" id="sub-filter-items">
 
-            <div class="img_filter"><img src="{{request.META.HTTP_HOST}}/media/{{cat.image}}" alt="{{ cat.name }}"></div>
+            <div class="img_filter"><img src="{{cat.image}}" alt="{{ cat.name }}"></div>
 
             {% if request.user.perm.product.add_category %}
             {% endif %}
@@ -129,7 +129,7 @@ $("#close_overlay").click(function(e) {
 
                 {% if product.brand %}
                 
-                <div class="product-overlay-dialog-brand maxheight-setter"><img src="{{request.META.HTTP_HOST}}/media/{{product.brand.image}}" alt="brand_name">
+                <div class="product-overlay-dialog-brand maxheight-setter"><img src="{{product.brand.image}}" alt="brand_name">
                 </div>
                 {% endif %}
                 
@@ -144,7 +144,7 @@ $("#close_overlay").click(function(e) {
                         
                         {% for image in product.my_images %}
                         <div class="box">
-                            <img src="{{request.META.HTTP_HOST}}/media/{{image.image}}">
+                            <img src="{{image.image}}">
                             <span> {{image.name}} </span>
                         </div>
 
@@ -181,7 +181,7 @@ $("#close_overlay").click(function(e) {
 
         <!-- product item -->
 
-        <div class="product-image"><img src="{{request.META.HTTP_HOST}}/media/{{product.image}}" alt="brand_name">
+        <div class="product-image"><img src="{{product.image}}" alt="brand_name">
             <hr class="style-1">
         </div>
 
