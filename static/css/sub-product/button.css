@@ -43,6 +43,7 @@
 .button .icon {
   width: 28%;
   right: 0;
+  top: 25%;
   -webkit-transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);
   transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);
 }

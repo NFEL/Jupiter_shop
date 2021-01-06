@@ -77,7 +77,7 @@ LOGIN_REDIRECT_URL = '/'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['mapsa-jupiter-shop.herokuapp.com','google.com']
+ALLOWED_HOSTS = ['mapsa-jupiter-shop.herokuapp.com','google.com','127.0.0.1']
 
 
 INSTALLED_APPS = [
