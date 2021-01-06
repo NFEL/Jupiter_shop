@@ -1,1 +1,3 @@
-web: gunicorn your_project_name.wsgi --log-file -
+web: gunicorn jupiter_shop.wsgi:application --log-file - --log-level debug
+python manage.py collectstatic --noinput
+manage.py migrate
