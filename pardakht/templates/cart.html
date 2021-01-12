@@ -50,7 +50,7 @@
     </form> 
     </div>
     <div class="product-removal">
-      <button OnClick=" location.href='http://{{request.META.HTTP_HOST}}{% url 'add-to-cart' item.product.id %}?next={{request.META.HTTP_HOST}}/cart/;'" class="remove-product" style='background-color: #6b6;font-size:17px;width:25px;height:25px;'>
+      <button OnClick=" location.href='http://{{request.META.HTTP_HOST}}{% url 'add-to-cart' item.product.id %}?next={% url 'cart' %};'" class="remove-product" style='background-color: #6b6;font-size:17px;width:25px;height:25px;'>
         +
       </button>
       <button OnClick=" location.href='http://{{request.META.HTTP_HOST}}{% url 'reduce-from-cart' item.product.id %}'" class="remove-product"   style='background-color: #cc7966;font-size:17px;width:25px;height:25px;'>
