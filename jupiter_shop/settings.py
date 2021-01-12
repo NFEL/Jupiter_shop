@@ -1,6 +1,7 @@
 
 from pathlib import Path
 import os
+from os import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -126,6 +127,16 @@ ACCOUNT_LOGOUT_ON_GET = True
 SITE_ID = 1
 
 ROOT_URLCONF = 'jupiter_shop.urls'
+
+GEOS_LIBRARY_PATH = environ.get('GEOS_LIBRARY_PATH')
+GDAL_LIBRARY_PATH = environ.get('GDAL_LIBRARY_PATH')
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (32.24997445586331, 53.61328125000001),
+'DEFAULT_ZOOM': 5,
+'MIN_ZOOM': 3,
+'MAX_ZOOM': 18,
+'DEFAULT_PRECISION': 6,
+}
 
 
 TEMPLATES = [
