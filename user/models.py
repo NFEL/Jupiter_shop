@@ -32,7 +32,6 @@ class User(AbstractUser):
 
 def reic(instance):
     
-    time.sleep(0.1)
     if not cache.get(instance.user_uuid) and not instance.is_active:
         if instance.email and isinstance(instance.email, str):
             instance.user_uuid = uuid.uuid4()
