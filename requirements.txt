@@ -11,7 +11,6 @@ idna==2.10
 keyring==10.6.0
 keyrings.alt==3.0
 olefile==0.45.1
-onboard==1.4.1
 pexpect==4.2.1
 Pillow==5.1.0
 psycopg2-binary==2.8.6
