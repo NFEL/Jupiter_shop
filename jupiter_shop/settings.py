@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'django.contrib.sites',
-    # 'django.contrib.gis'
+    'django.contrib.gis'
     
     'product.apps.ProductConfig',
     'store',
@@ -127,9 +127,8 @@ ACCOUNT_LOGOUT_ON_GET = True
 SITE_ID = 1
 
 ROOT_URLCONF = 'jupiter_shop.urls'
-
-GEOS_LIBRARY_PATH = environ.get('GEOS_LIBRARY_PATH')
-GDAL_LIBRARY_PATH = environ.get('GDAL_LIBRARY_PATH')
+GEOS_LIBRARY_PATH = '/app/.heroku/vendor/lib/libgeos_c.so' if os.environ.get('ENV') == 'HEROKU' else os.getenv('GEOS_LIBRARY_PATH')
+GDAL_LIBRARY_PATH = '/app/.heroku/vendor/lib/libgdal.so' if os.environ.get('ENV') == 'HEROKU' else os.getenv('GDAL_LIBRARY_PATH')
 LEAFLET_CONFIG = {
     'DEFAULT_CENTER': (32.24997445586331, 53.61328125000001),
 'DEFAULT_ZOOM': 5,
