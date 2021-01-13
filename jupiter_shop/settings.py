@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'django.contrib.sites',
-    'django.contrib.gis'
+    'django.contrib.gis',
     
     'product.apps.ProductConfig',
     'store',
