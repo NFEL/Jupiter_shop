@@ -1,1 +1,1 @@
-web:gunicorn jupiter_shop.wsgi:application --log-file - --log-level debug
+web:gunicorn jupiter_shop.wsgi --log-file - --log-level debug
