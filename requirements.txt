@@ -10,7 +10,6 @@ httplib2==0.9.2
 idna==2.10
 keyring==10.6.0
 keyrings.alt==3.0
-language-selector==0.1
 louis==3.5.0
 netifaces==0.10.4
 olefile==0.45.1
@@ -32,4 +31,3 @@ SecretStorage==2.3.1
 six==1.11.0
 urllib3==1.26.2
 whitenoise==5.2.0
-xkit==0.0.0
