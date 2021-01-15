@@ -90,7 +90,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
-MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'`
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 AUTHENTICATION_BACKENDS = [
     
