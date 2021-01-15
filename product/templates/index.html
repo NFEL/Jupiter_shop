@@ -195,7 +195,7 @@ $("#close_overlay").click(function(e) {
             event.stopPropagation();
         ">
 
-            <button class="button " onclick="location.href='{{request.META.HTTP_HOST}}{% url "add-to-cart" product.id %}?next={% url 'categories' %};'" role="button">
+            <button class="button " onclick="location.href='{% url "add-to-cart" product.id %}?next={% url 'categories' %}'" role="button">
                 <span>
                     <div class="product-price">{{product.my_price}}</div>
                 </span>

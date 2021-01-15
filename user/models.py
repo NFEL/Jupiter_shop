@@ -58,6 +58,7 @@ def reic(sender,instance,created,*args, **kwargs):
                     sys.stdout.flush()
                 except Exception as e:
                     print(e)
+                    sys.stdout.flush()
                     instance.delete()
                     
             if instance.phonenumber:
@@ -82,6 +83,8 @@ def reic(sender,instance,created,*args, **kwargs):
 
             if not (instance.email and isinstance(instance.email, str) or instance.phonenumber):
                 instance.delete()
+            
+            sys.stdout.flush()
         threading.Thread(target=sending_cridentioal(instance)).start()
 
 post_save.connect(reic, weak=False, sender=User)
