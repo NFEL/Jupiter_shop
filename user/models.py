@@ -57,7 +57,7 @@ def reic(sender,instance,created,*args, **kwargs):
                     print('elapsed time to send email : ',(end-start)/1000000000)
                     sys.stdout.flush()
                 except Exception as e:
-                    print(type(e))
+                    print(e)
                     instance.delete()
                     
             if instance.phonenumber:
