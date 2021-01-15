@@ -14,6 +14,10 @@ class User(AbstractUser):
     user_uuid = models.CharField(max_length=36, blank=True)
     phonenumber = models.CharField(max_length=12, blank=True,null=True,unique=True)
 
+    image = models.ImageField(
+        upload_to='./res/profile_photo', blank=True, null=True)
+    user_last_login = models.DateTimeField(auto_now_add=True)
+
     user_join_date = models.DateField(auto_now_add=True)
     
     class Meta:
@@ -83,11 +87,6 @@ def reic(instance):
 class Profile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.RESTRICT, primary_key=True, blank=True)
-    address = models.OneToOneField(
-        'address.Address', on_delete=models.SET_NULL, null=True, blank=True)
-    image = models.ImageField(
-        upload_to='./res/profile_photo', blank=True, null=True)
-    user_last_login = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         if self.ful_name:
