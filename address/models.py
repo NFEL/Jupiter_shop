@@ -1,5 +1,5 @@
-from django.contrib.gis.db import models
-
+# from django.contrib.gis.db import models
+from django.db import models
 from django.contrib.auth import get_user_model
 
 
@@ -12,7 +12,7 @@ class Address(models.Model):
         ('markazi', 'مرکزی'),
     ]
     
-    location = models.PointField('موقعیت جغرافیایی',geography=True)
+    # location = models.PointField('موقعیت جغر0افیایی',geography=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     address_detail = models.TextField(blank=True,null=True)
