@@ -22,7 +22,6 @@ CACHES = {
 }
 SESSION_ENGINE= 'django.contrib.sessions.backends.cached_db'
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -91,7 +90,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
-
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'`
 
 AUTHENTICATION_BACKENDS = [
     
@@ -136,25 +135,6 @@ LEAFLET_CONFIG = {
 'MAX_ZOOM': 18,
 'DEFAULT_PRECISION': 6,
 }
-
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-
-
 
 LOGGING = {
     'version': 1,

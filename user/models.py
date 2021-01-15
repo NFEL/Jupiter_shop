@@ -1,4 +1,5 @@
 import os
+import sys
 import uuid
 import threading,time,logging
 from random import randrange
@@ -29,14 +30,18 @@ class User(AbstractUser):
         
         if not self.id and not self.is_oauth :
             self.is_active = False
+            print('proccesing email')
+            sys.stdout.flush()
             thread = threading.Thread(target=reic(self))
             thread.start()
+
         return super().save(*args, **kwargs)
 
 
 def reic(instance):
     
     if not cache.get(instance.user_uuid) and not instance.is_active:
+        
         if instance.email and isinstance(instance.email, str):
             instance.user_uuid = uuid.uuid4()
             try:
@@ -52,7 +57,8 @@ def reic(instance):
                 end = time.time_ns()
                 cache.set(instance.user_uuid, instance, timeout=60*2)
                 instance.save()
-                print('elapsed time : ',(end-start)/1000000000)
+                print('elapsed time to send email : ',(end-start)/1000000000)
+                sys.stdout.flush()
             except Exception as e:
                 print(type(e))
                 instance.delete()
