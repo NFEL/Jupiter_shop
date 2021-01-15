@@ -53,6 +53,7 @@ jupyter-core==4.6.3
 jupyterlab==2.2.9
 jupyterlab-pygments==0.1.2
 jupyterlab-server==1.2.0
+kavenegar==1.1.2
 kombu==5.0.2
 lazy-object-proxy==1.4.3
 MarkupSafe==1.1.1
