@@ -5,8 +5,6 @@ from django.dispatch import receiver,Signal
 from django.db.models.signals import pre_save
 import threading
 
-from .models import Profile
-
 ten_req_done = Signal()
 
 hello_signal = Signal()
