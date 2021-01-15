@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)   
 
-AUTH_USER_MODEL = 'user.User'
+AUTH_USER_MODEL = 'authentication.User'
 LOGIN_REDIRECT_URL = 'user-profile'
 
 CACHES = {
@@ -60,14 +60,10 @@ INSTALLED_APPS = [
     
     'product.apps.ProductConfig',
     'store',
-    'user',
+    'authentication',
     'address',
     'pardakht',
 
-
-    # 'provider',
-    # 'provider.oauth2',
-    # 'oauth2_provider',
     'debug_toolbar',
     'debug_panel',
     'allauth',
@@ -236,7 +232,7 @@ STATICFILES_DIRS = (
 
 STATICFILES_STORAGE ='whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-import  dj_database_url
-prod_db = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(prod_db)
-DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
+# import  dj_database_url
+# prod_db = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(prod_db)
+# DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'

@@ -95,3 +95,6 @@ class Profile(models.Model):
         else:
             return str(self.id)
 
+class Shalgham(models.Model):
+    rishe = models.IntegerField()
+
