@@ -49,8 +49,7 @@ def reic(sender, instance, created, *args, **kwargs):
                     msg = EmailMessage(
                         'Signup via Email',
                         f'<a href="https://mapsa-jupiter-shop.herokuapp.com/user/verificationcode/{instance.user_uuid}">Verify me in the heroku</a>',
-                        f'<a href="https://localhost:8000/user/verificationcode/{instance.user_uuid}">Verify me in the localhost</a>',
-                        from_email =os.getenv('EMAIL_USERNAME'),
+                        from_email = os.getenv('EMAIL_USERNAME'),
                         to=[instance.email, ])
                     msg.content_subtype = "html"
                     msg.send()
