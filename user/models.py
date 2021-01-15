@@ -30,15 +30,12 @@ class User(AbstractUser):
         
         if not self.id and not self.is_oauth :
             self.is_active = False
-            print('proccesing email')
-            sys.stdout.flush()
-            thread = threading.Thread(target=reic(self))
-            thread.start()
 
         return super().save(*args, **kwargs)
 
 
-def reic(instance):
+
+def reic(instance,*args, **kwargs):
     
     if not cache.get(instance.user_uuid) and not instance.is_active:
         
@@ -87,4 +84,4 @@ def reic(instance):
             instance.delete()
         
 
-# post_save.connect(reic, weak=False, sender=User)
+post_save.connect(reic, weak=False, sender=User)
