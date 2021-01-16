@@ -1,16 +1,33 @@
 {% load leaflet_tags %}
 <html>
   <head>
-    {% leaflet_js %}
-    {% leaflet_css %}
+    {% leaflet_js plugins="ALL" %}
+    {% leaflet_css plugins="ALL" %}
   </head>
   <body>
 <div  style='width:75%;height:50%;margin:auto;'>
 {{ map|safe }}
- {% leaflet_map map %}
 </div>
 <form  style='width:75%;height:50%;margin:auto;'>
 {% csrf_token %}
+
+<script>
+    window.addEventListener("map:init", function (e) {
+        var detail = e.detail;
+        {% for store in store_locs %}
+        
+        L.marker({{ store }}).addTo(detail.map); 
+        L.circle({{ store }},{
+          color: "Blue",
+          fillColor: "#f03",
+          fillOpacity: 0.5,
+          radius: 50.0
+      }).addTo(detail.map); 
+        {% endfor %}
+        
+        {% comment %} detail.map.setView({{user_location}}, 10); {% endcomment %}
+    }, false);
+</script>
 
 {{ form }}
 <button>Submit </button>

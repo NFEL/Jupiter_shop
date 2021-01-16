@@ -40,17 +40,6 @@ class ListAddressesMixIn():
             if form.is_valid():
                 user_location = self.point_parser(
                     request.POST.get('location' or None))
-
-        elif request.method == 'GET':
-
-            external_ip = urllib.request.urlopen(
-                'https://ident.me').read().decode('utf8')
-            response = DbIpCity.get(external_ip, api_key='free')
-            user_location = (response.latitude, response.longitude)
-
-            if form.is_valid():
-                f = form.save(commit=False)
-
         else:
             return HttpResponseBadRequest()
 
@@ -65,12 +54,13 @@ class ListAddressesMixIn():
             folium.vector_layers.Marker(user_location, icon=folium.Icon(
                 color='green', prefix='glyphicon', icon='home')).add_to(map)
 
+        store_locs= []
         for store in store_locations:
             for loc in StoreAddress.objects.filter(store = store):
                 print(loc)
                 sys.stdout.flush()
                 location_corrected = (loc.location.y, loc.location.x)
-
+                store_locs.append(location_corrected)
                 folium.vector_layers.Circle(
                     location_corrected,
                     float(loc.working_raduis),
@@ -92,6 +82,7 @@ class ListAddressesMixIn():
 
         context['map'] = map._repr_html_() 
         context['form']= form
+        context['stores'] = store_locs
         return context
 
         
