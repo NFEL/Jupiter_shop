@@ -10,7 +10,7 @@ import urllib.request
 
 from address import geolocator
 from store.models import Store
-from .models import UserAddress
+from .models import StoreAddress, UserAddress
 from .forms import UserLocationMarker
 
 
@@ -62,27 +62,28 @@ class ListAddressesMixIn():
                 color='green', prefix='glyphicon', icon='home')).add_to(map)
 
         for store in store_locations:
-            loc = store.StoreAddress
-            location_corrected = (loc.location.y, loc.location.x)
+            for loc in StoreAddress.objects.filter(store = store):
 
-            folium.vector_layers.Circle(
-                location_corrected,
-                float(loc.working_raduis),
-                fill=True).add_to(map)
+                location_corrected = (loc.location.y, loc.location.x)
 
-            folium.vector_layers.Marker(location_corrected).add_to(map)
+                folium.vector_layers.Circle(
+                    location_corrected,
+                    float(loc.working_raduis),
+                    fill=True).add_to(map)
 
-            if request.method == 'POST':
-                distance = dis.distance(
-                    user_location, Point(location_corrected)).km
+                folium.vector_layers.Marker(location_corrected).add_to(map)
 
-                if distance > loc.working_raduis:
-                    folium.vector_layers.PolyLine(
-                        [user_location, location_corrected], popup='No service', tooltip="No service", color="#FF0000").add_to(map)
-                else:
-                    distance_str = f'distance is {distance} km'
-                    folium.vector_layers.PolyLine(
-                        [user_location, location_corrected], popup=distance_str, tooltip=distance_str, color="#808000").add_to(map)
+                if request.method == 'POST':
+                    distance = dis.distance(
+                        user_location, Point(location_corrected)).km
+
+                    if distance > loc.working_raduis:
+                        folium.vector_layers.PolyLine(
+                            [user_location, location_corrected], popup='No service', tooltip="No service", color="#FF0000").add_to(map)
+                    else:
+                        distance_str = f'distance is {distance} km'
+                        folium.vector_layers.PolyLine(
+                            [user_location, location_corrected], popup=distance_str, tooltip=distance_str, color="#808000").add_to(map)
 
         context['map'] = map._repr_html_() 
         context['form']= form
