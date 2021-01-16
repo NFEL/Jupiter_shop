@@ -12,19 +12,19 @@
 {% csrf_token %}
 
 <script>
-    window.addEventListener("map:init", function (e) {
+    window.addEventListener("id_location-map:init", function (e) {
         var detail = e.detail;
 
         {% for store in stores %}
         
-        L.marker({{ store }}).addTo(detail.map); 
+        L.marker({{ store }}).addTo(detail.id_location-map); 
         L.circle({{ store }},{
           color: "Blue",
           fillColor: "#f03",
           fillOpacity: 0.5,
           radius: 50.0
-      }).addTo(detail.map); 
-        detail.map.setView({{ store }}, 10); 
+      }).addTo(detail.id_location-map); 
+        detail.id_location-map.setView({{ store }}, 10); 
         {% endfor %}
         
     }, false);
