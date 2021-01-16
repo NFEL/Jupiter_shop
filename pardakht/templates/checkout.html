@@ -8,12 +8,13 @@
 <div  style='width:75%;height:50%;margin:auto;'>
 {{ map|safe }}
 </div>
-<form id='map' style='width:75%;height:75%;margin:auto;'>
+<form method='POST' id='map' style='width:75%;height:75%;margin:auto;'>
 {% csrf_token %}
 
 <script>
     window.addEventListener("map:init", function (e) {
         var detail = e.detail;
+        
         {% for store in store_locs %}
         
         L.marker({{ store }}).addTo(detail.map); 
@@ -23,9 +24,9 @@
           fillOpacity: 0.5,
           radius: 50.0
       }).addTo(detail.map); 
+        detail.map.setView({{ store }}, 10); 
         {% endfor %}
         
-        {% comment %} detail.map.setView({{user_location}}, 10); {% endcomment %}
     }, false);
 </script>
 
