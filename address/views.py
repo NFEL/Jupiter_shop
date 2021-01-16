@@ -33,23 +33,14 @@ class ListAddressesMixIn():
             store_locations.add(item.product.store)
         form = UserLocationMarker(request.POST or None)
 
+        user_location = None
         if request.method == 'POST':
-            user_location = None
             form = UserLocationMarker(request.POST)
 
             if form.is_valid():
                 user_location = self.point_parser(
                     request.POST.get('location' or None))
-        else:
-            return HttpResponseBadRequest()
-
-        print(store_locations)
-        print(user_location)
-        sys.stdout.flush()
-
-        map = folium.Map(location=user_location,
-                         zoom_start=10)
-
+        
         if request.method == 'POST':
             folium.vector_layers.Marker(user_location, icon=folium.Icon(
                 color='green', prefix='glyphicon', icon='home')).add_to(map)
@@ -80,7 +71,7 @@ class ListAddressesMixIn():
                         folium.vector_layers.PolyLine(
                             [user_location, location_corrected], popup=distance_str, tooltip=distance_str, color="#808000").add_to(map)
 
-        context['map'] = map._repr_html_() 
+        # context['map'] = map._repr_html_() 
         context['form']= form
         context['stores'] = store_locs
         return context
