@@ -1,9 +1,8 @@
 import os
 import sys
+import time
 import uuid
 import threading
-import time
-import logging
 from random import randrange
 from django.db import models
 from django.core.cache import cache
@@ -48,13 +47,28 @@ def reic(sender, instance, created, *args, **kwargs):
                     start = time.time_ns()
                     msg = EmailMessage(
                         'Signup via Email',
-                        f'<a href="https://mapsa-jupiter-shop.herokuapp.com/user/verificationcode/{instance.user_uuid}">Verify me in the heroku</a>',
+                        f'<a href="https://myjupitershop.herokuapp.com/user/verificationcode/{instance.user_uuid}">Verify me in the heroku</a>',
                         from_email = os.getenv('EMAIL_USERNAME'),
                         to=[instance.email, ])
                     msg.content_subtype = "html"
+
+                    # import sendgrid
+                    # import os
+                    # from sendgrid.helpers.mail import *
+
+
+                    # sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
+                    # from_email = Email(os.getenv('EMAIL_USERNAME'))
+                    # subject = "Sign up Via Email"
+                    # to_email = Email(instance.email)
+                    # content = Content("html", f'<a href="https://myjupitershop.herokuapp.com/user/verificationcode/{instance.user_uuid}">Verify me in the heroku</a>',)
+                    # mail = Mail(from_email, subject, to_email, content)
+                    # response = sg.client.mail.send.post(request_body=mail.get())
+
+
                     msg.send()
                     end = time.time_ns()
-                    cache.set(instance.user_uuid, instance, timeout=60*2)
+                    cache.set(str(instance.user_uuid), instance, timeout=60*2)
                     instance.save()
                     print('elapsed time to send email : ',
                           (end-start)/1000000000)

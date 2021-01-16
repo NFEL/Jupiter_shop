@@ -1,10 +1,11 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect, HttpResponse
-from django.views import View
-from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View 
+from django.views.generic import ListView, TemplateView
 from django.core.cache import cache, utils
 
-
+from address.models import Address
 from .models import Cart, CartItems
 from product.models import Product
 
@@ -117,14 +118,11 @@ def doing_stuff(op, request, id, *args, **kwargs):
         raise e
 
 
-class CartDetailView(DetailView):
-
+class CartDetailView(TemplateView):
     template_name = "cart.html"
 
-    def get(self, request, *args, **kwargs) -> HttpResponse:
-        # print(request.session['cart'])
-        return render(request, "cart.html")
-
-    def get_queryset(self):
-
-        return
+class AddressListView(ListView,LoginRequiredMixin,ListAddressesMixIn):
+    model = Address
+    template_name = "checkout.html"
+    login_url = 'user-login'
+    redirect_field_name = 'cart'
