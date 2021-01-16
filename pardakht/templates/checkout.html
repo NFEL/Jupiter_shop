@@ -14,8 +14,8 @@
 <script>
     window.addEventListener("map:init", function (e) {
         var detail = e.detail;
-        
-        {% for store in store_locs %}
+
+        {% for store in stores %}
         
         L.marker({{ store }}).addTo(detail.map); 
         L.circle({{ store }},{
