@@ -1,5 +1,13 @@
+{% load leaflet_tags %}
+<html>
+  <head>
+    {% leaflet_js %}
+    {% leaflet_css %}
+  </head>
+  <body>
 <div  style='width:75%;height:50%;margin:auto;'>
 {{ map|safe }}
+ {% leaflet_map map %}
 </div>
 <form  style='width:75%;height:50%;margin:auto;'>
 {% csrf_token %}
@@ -7,3 +15,5 @@
 {{ form }}
 <button>Submit </button>
 </form>
+</body>
+</html>

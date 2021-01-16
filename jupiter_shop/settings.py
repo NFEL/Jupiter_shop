@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     'address',
     'pardakht',
 
-
+'leaflet',
     # 'provider',
     # 'provider.oauth2',
     # 'oauth2_provider',
