@@ -61,7 +61,8 @@ class ListAddressesMixIn():
             folium.vector_layers.Marker(user_location, icon=folium.Icon(
                 color='green', prefix='glyphicon', icon='home')).add_to(map)
 
-        for loc in store_locations:
+        for store in store_locations:
+            loc = store.StoreAddress
             location_corrected = (loc.location.y, loc.location.x)
 
             folium.vector_layers.Circle(
