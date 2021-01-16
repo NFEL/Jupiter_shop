@@ -20,7 +20,7 @@ class AddressAbstract(models.Model):
         ordering = ('priority_address', 'location', )
 
 
-class UserAdress(AddressAbstract):
+class UserAddress(AddressAbstract):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -41,5 +41,5 @@ class StoreAddress(AddressAbstract):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                name='unique_priority_user_location',
+                name='unique_priority_store_location',
                 fields=['store', 'priority_address'],)]

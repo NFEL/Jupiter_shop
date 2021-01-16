@@ -5,7 +5,7 @@ from django.views import View
 from django.views.generic import ListView, TemplateView
 from django.core.cache import cache, utils
 
-from address.models import Address
+from address.views import ListAddressesMixIn 
 from .models import Cart, CartItems
 from product.models import Product
 
@@ -122,7 +122,7 @@ class CartDetailView(TemplateView):
     template_name = "cart.html"
 
 class AddressListView(ListView,LoginRequiredMixin,ListAddressesMixIn):
-    model = Address
+    
     template_name = "checkout.html"
     login_url = 'user-login'
     redirect_field_name = 'cart'

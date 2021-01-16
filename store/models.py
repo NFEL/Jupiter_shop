@@ -11,7 +11,7 @@ class Store(models.Model):
     sub_categories = models.ManyToManyField(SubCategory, verbose_name="Sub Categories of Store")
     store_name = models.CharField('نام نمایشی',max_length=30)
     is_verified = models.BooleanField('رسمی',default=False)
-    store_owner = models.OneToOneField(User)
+    store_owner = models.OneToOneField(User,on_delete=models.CASCADE)
   
     class Meta:
         db_table = 'Store'

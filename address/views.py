@@ -10,7 +10,7 @@ import urllib.request
 
 from address import geolocator
 from store.models import Store
-from .models import Address
+from .models import UserAddress
 from .forms import UserLocationMarker
 
 
@@ -18,7 +18,7 @@ class ListAddressesMixIn():
     queryset = None
 
     def get_queryset(self):
-        self.queryset = Address.objects.filter(user=self.request.user)
+        self.queryset = UserAddress.objects.filter(user=self.request.user)
         return self.queryset
 
     def get_context_data(self, **kwargs):
