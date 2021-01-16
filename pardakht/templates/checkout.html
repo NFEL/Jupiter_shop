@@ -1,1 +1,9 @@
+<div  style='width:75%;height:50%;margin:auto;'>
 {{ map|safe }}
+</div>
+<form  style='width:75%;height:50%;margin:auto;'>
+{% csrf_token %}
+
+{{ form }}
+<button>Submit </button>
+</form>
