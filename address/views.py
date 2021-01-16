@@ -1,3 +1,4 @@
+import sys
 import folium
 from django.shortcuts import render, get_object_or_404
 from django.contrib.gis.geos import Point
@@ -30,7 +31,6 @@ class ListAddressesMixIn():
 
         for item in request.cart_items:
             store_locations.add(item.product.store)
-
         form = UserLocationMarker(request.POST or None)
 
         if request.method == 'POST':
@@ -54,6 +54,10 @@ class ListAddressesMixIn():
         else:
             return HttpResponseBadRequest()
 
+        print(store_locations)
+        print(user_location)
+        sys.stdout.flush()
+
         map = folium.Map(location=user_location,
                          zoom_start=10)
 
@@ -63,7 +67,8 @@ class ListAddressesMixIn():
 
         for store in store_locations:
             for loc in StoreAddress.objects.filter(store = store):
-
+                print(loc)
+                sys.stdout.flush()
                 location_corrected = (loc.location.y, loc.location.x)
 
                 folium.vector_layers.Circle(
