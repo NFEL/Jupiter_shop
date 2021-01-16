@@ -29,7 +29,7 @@ class ListAddressesMixIn():
         store_locations = set()
 
         for item in request.cart_items:
-            store_locations.add(item['product'].store)
+            store_locations.add(item.get('product').store)
 
         form = UserLocationMarker(request.POST or None)
 

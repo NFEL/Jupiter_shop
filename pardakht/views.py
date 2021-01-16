@@ -121,7 +121,7 @@ def doing_stuff(op, request, id, *args, **kwargs):
 class CartDetailView(TemplateView):
     template_name = "cart.html"
 
-class AddressListView(ListAddressesMixIn,ListView,LoginRequiredMixin):
+class AddressListView(ListAddressesMixIn,LoginRequiredMixin,ListView):
     
     template_name = "checkout.html"
     login_url = 'user-login'
