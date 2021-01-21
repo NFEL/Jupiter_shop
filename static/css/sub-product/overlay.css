@@ -20,7 +20,6 @@
       'comment comment price'
       'comment comment old-price'
     ;
-    
 
   position: fixed;
   top: 25%; 
@@ -31,6 +30,43 @@
   border-radius: 5px;
   text-align: center;
   z-index: 11; /* 1px higher than the overlay layer */
+  transition: all 0s;
+  overflow: scroll;
+}
+ 
+@media only screen and (max-width: 1000px){
+  .product-overlay-dialog {
+    grid-template-areas:
+        'name brand'
+        'hr hr'
+        'detail detail'
+        'detail detail'
+        'img img'
+        'img img'
+        'img img'
+        'comment comment'
+        'comment comment'
+        'price price'
+        'old-price old-price';
+  }  
+}
+
+
+@media only screen and (max-width: 800px){
+  .product-overlay-dialog {
+    grid-template-areas:
+        'brand'
+        'name'
+        'hr'
+        'detail'
+        'detail'
+        'img'
+        'img'
+        'comment'
+        'comment'
+        'price'
+        'old-price';
+  }
 }
 
 .product-overlay-dialog-id{grid-area: id;}

@@ -228,3 +228,25 @@ import  dj_database_url
 prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
+
+
+
+
+
+
+
+ORG  100 
+LDA SUB
+CMA 
+INC 
+ADD  MIN STA  
+DIF 
+HLT 
+DEC  42 
+DEC  -56 
+HEX  0 
+END 
+
+/ Origin of program is location 100 / Load subtrahend to AC / Complement AC / Increment AC / Add minuend to AC / Store difference / Halt computer / Minuend / Subtrahend / Difference stored here / End of symbolic program MIN, SUB, DIF, Assembly Language   
+
+

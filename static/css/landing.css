@@ -52,14 +52,18 @@ input{
     padding: 10px;
     width: 42.5px;
     height: 42.5px;
-    position: absolute;
-    top: 0;
-    right: 0;
     border-radius: 50%;
     color: #07051a;
     text-align: center;
     font-size: 1.2em;
-    transition: all 1s;
+
+}
+
+.searchbar-icon{ 
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: all 1s;
 }
 
 .searchbar:hover{
@@ -80,7 +84,6 @@ input{
     position: fixed;
     right: 5%;
     top: 5%;
-    background-color: #ddd;
     border:red;
     padding: 15px 20px;
     text-align: center;
@@ -99,7 +102,6 @@ input{
     position: fixed;
     left: 5%;
     top: 5%;
-    background-color: #ddd;
     border:red;
     padding: 15px 20px;
     text-align: center;
@@ -114,7 +116,7 @@ input{
     position: fixed;
     right:5%;
     bottom: 5%;
-    background-color: #ddd;
+
     border:red;
     padding: 15px 20px;
     text-align: center;
@@ -125,6 +127,12 @@ input{
     border-radius: 50px;
     opacity: 0.4;
   }
+  /* .tools::before{
+    content: "\f500";
+  }
+  .cart::before{
+    content: "\f07a";
+  } */
   .cart {
     position: fixed;
     left: 5%;
@@ -175,7 +183,7 @@ input{
     background-repeat: no-repeat;
     color:#f6f5f4;
     height: 400px;
-    width: 300px;
+    /* width: 300px; */
   }
 
   .filter-rows{
@@ -245,6 +253,8 @@ img{
   object-fit: contain;
   width: 95%;
   height: 95%;
+  max-width: 150px;
+  max-height: 150px;
   display: block;
   margin-left: auto;
   margin-right: auto;

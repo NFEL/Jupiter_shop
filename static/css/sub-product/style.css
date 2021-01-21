@@ -134,10 +134,11 @@ img{
   grid-gap: 10px;
 
   text-align: center;
-  overflow: hidden;
+  /* overflow: hidden; */
   border-radius: 2%;
   border: 1px #888888;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transition: all 0.5s;
 }
 .product:hover{
   box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -150,9 +151,8 @@ img{
   margin: 3.5%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr ;
-  /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
-  
-  grid-gap:1.6%;
+  vertical-align: middle;
+  grid-gap:2.6%;
   grid-template-rows: max-content;
 }
 
@@ -161,59 +161,59 @@ img{
   }
 
 
-@media only screen and (max-width: 1900px){
-  .products_v2{
-    display: grid;
-    grid-template-columns: 1fr 1fr ;
-    vertical-align: middle;
-    grid-gap:0.5%;
+  @media only screen and (max-width: 1600px){
+    .products_v2{
+      display: grid;
+      grid-template-columns: 1fr 1fr ;
+
+      grid-gap:2.5%;
+    }
+  
+
+    .product-addToCart-bt{
+      transform: scale(0.6);
+    }
+      .product-name{
+        font-size: 16px;
+      }  
+    
   }
+  @media only screen and (max-width: 1111px){
+    .products_v2{
+      display: grid;
+      grid-template-columns: 1fr ;
+      
+      grid-gap:2.9%;
+    }
 
-.product-addToCart-bt{
-  transform: scale(0.6);
-  grid-area: addtocart;
-}
-  .product-name{
-    font-size: 16px;
-  }
-}
-
-@media only screen and (max-width: 1000px){
-  .products_v2{
-    display: grid;
-    grid-template-columns: 1fr ;
-    vertical-align: middle;
-    grid-gap:2.3%;
-  }
-
-
-.product-addToCart-bt{
-  transform: scale(0.4);
-  grid-area: addtocart;
-}
-
-  .product-name{
-    font-size: 18px;
+  .product-addToCart-bt{
+    transform: scale(0.4);
   }
   
-}@media only screen and (max-width: 450px){
+    .product-name{
+      font-size: 18px;
+    }
+  
+  }
+ 
+@media only screen and (max-width: 550px){
   .products_v2{
     display: grid;
     grid-template-columns: 1fr;
     vertical-align: middle;
     padding: 0.6%;
-    grid-gap:3%;
+    grid-gap:3.5%;
   }
 
-
-.product-addToCart-bt{
-  transform: scale(0.3);
-  grid-area: addtocart;
-}
-
-  .product-name{
-    font-size: 15px;
+  .product-addToCart-bt{
+    transform: scale(0.3);
+    grid-area: addtocart;
   }
+  
+    .product-name{
+      font-size: 12px;
+    }
+
 }
 
 hr.style-1{

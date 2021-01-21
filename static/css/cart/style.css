@@ -68,6 +68,9 @@ Side note: I know that this style of nesting in SASS doesn't result in the most 
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 100;
   }
+  .header{
+    height: 15%;
+  }
   
   h1 {
     font-weight: 100;
