@@ -25,6 +25,7 @@ class Category(models.Model):
     @classmethod
     def my_brands(cls,title):
         return ProductBrand.objects.filter(brands__category__title = title)
+    
 
     class Meta:
         db_table = 'Category'
@@ -49,6 +50,8 @@ class SubCategory(models.Model):
     @classmethod
     def my_brands(cls,title):
         return ProductBrand.objects.filter(brands__sub_category__title = title)
+
+    
 
     class Meta:
         db_table = 'Sub Category'
@@ -110,6 +113,7 @@ class Product(models.Model):
         return self.productcomment_set.all()
     class Meta:
         db_table = 'Products'
+        
 
 
 class ProductPrice(models.Model):

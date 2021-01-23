@@ -1,0 +1,37 @@
+{% load leaflet_tags %}
+<html>
+  <head>
+    {% leaflet_js plugins="ALL" %}
+    {% leaflet_css plugins="ALL" %}
+  </head>
+  <body>
+<div  style='width:75%;height:50%;margin:auto;'>
+{{ map|safe }}
+</div>
+<form method='POST' id='map' style='width:75%;height:75%;margin:auto;'>
+{% csrf_token %}
+
+<script>
+    window.addEventListener("id_location-map:init", function (e) {
+        var detail = e.detail;
+
+        {% for store in stores %}
+        
+        L.marker({{ store }}).addTo(detail.id_location-map); 
+        L.circle({{ store }},{
+          color: "Blue",
+          fillColor: "#f03",
+          fillOpacity: 0.5,
+          radius: 50.0
+      }).addTo(detail.id_location-map); 
+        detail.id_location-map.setView({{ store }}, 10); 
+        {% endfor %}
+        
+    }, false);
+</script>
+
+{{ form }}
+<button>Submit </button>
+</form>
+</body>
+</html>

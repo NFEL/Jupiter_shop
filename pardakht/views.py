@@ -1,3 +1,6 @@
+import os
+import threading
+from django.core.mail import EmailMessage
 from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -5,7 +8,8 @@ from django.views import View
 from django.views.generic import ListView, TemplateView
 from django.core.cache import cache, utils
 
-from address.views import ListAddressesMixIn 
+
+# from address.views import ListAddressesMixIn 
 from .models import Cart, CartItems
 from product.models import Product
 
@@ -121,8 +125,47 @@ def doing_stuff(op, request, id, *args, **kwargs):
 class CartDetailView(TemplateView):
     template_name = "cart.html"
 
-class AddressListView(ListAddressesMixIn,LoginRequiredMixin,ListView):
+class Checkout(LoginRequiredMixin,View):
     
-    template_name = "checkout.html"
-    login_url = 'user-login'
-    redirect_field_name = 'cart'
+    def get(self,request,*args, **kwargs):
+        
+        products_bought = []
+        store_owner = None
+        total_price = 0
+        for item in request.cart_items :
+            if item.product.stock_count - item.qty > 0 :
+                store_owner = item.product.store.store_owner
+                item.product.stock_count -= item.qty
+                total_price += item.qty * item.product.my_price()
+                item.product.save()
+                products_bought.append(item.product)
+                item.delete()
+        context = {
+            'store_owner':store_owner,
+            'products_bought' : products_bought,
+            'total_price':total_price,
+        }
+        _response = render(request=request,template_name='checkout.html',context=context)
+        
+        def send_email():
+            try:
+
+                msg = EmailMessage(
+                    'Signup via Email',
+                    _response,
+                    from_email = os.getenv('EMAIL_USERNAME'),
+                    to=[store_owner.email, ])
+                msg.content_subtype = "html"
+                msg.send()
+            except:
+                pass
+        threading.Thread(target=send_email()).start()
+        return _response
+
+
+
+# class AddressListView(ListAddressesMixIn,LoginRequiredMixin,ListView):
+    
+#     template_name = "checkout.html"
+#     login_url = 'user-login'
+#     redirect_field_name = 'cart'

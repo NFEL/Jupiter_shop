@@ -22,15 +22,24 @@
     <div class="addcat-overlay" id="adding-filter-overlay" style="visibility:hidden;">
         <div class="addcat-overlay-dialog" >
         
-            <div id='close_overlay' style="cursor:pointer">
-            <img src={% static 'imgs/close.png' %} width='75px' height='75px'>
-            close
+            <div id='close_overlay' style="cursor:pointer;">
+            <img src={% static 'imgs/close.png' %} style="
+            width: 25px;
+            height: 25px;
+        " alt='close'>
             </div>
             <form method='POST' id="adding-filter" 
             accept-charset="utf-8" enctype="multipart/form-data"
-            style="padding:15px;display:flex;flex-direction:column;row-gap:25px;">
+            style="padding:15px;display:flex;flex-direction:column;row-gap:25px;grid-template-areas:
+            'name'
+            'detail'
+            'detail'
+            'image'
+            'submit'
+            ;">
                 {% csrf_token %}
                 <style>
+
                 .normal-input{
                     width: 100%;
                     padding: 12px 20px;
@@ -39,12 +48,17 @@
                     position:relative;
                 }
                 </style>
-                <input type="text" name="title" maxlength="35" required id="id_title" placeholder="Name" class="normal-input" >
-                <label for="id_description">Detail:</label>
-                <textarea name="description" cols="40" rows="10" id="id_description" style="text-align:center;">You can write detail here </textarea>
-                <label for="id_image">Image :</label>
-                <input type="file" name="image" accept="image/*" id="id_image" src={% static 'imgs/image-add.png' %} class="normal-input">
-                <button type="submit" >Add</button>
+                <div style="grid-area:name;">
+                    <input type="text" name="title" maxlength="35" required = 'required' id="id_title" placeholder="Name" class="normal-input" >
+                </div>
+                <div style="grid-area:detail;">
+                    <textarea name="description" id="id_description" style="text-align:center;width: 95%;" placeholder="Detail here" rows="10"></textarea>
+                </div>
+                <div style="grid-area:image;">
+                    <input type="file" name="image" required = 'required' accept="image/*" id="id_image" src={% static 'imgs/image-add.png' %} class="normal-input">
+                </div>
+
+                <button type="submit" style="grid-area: submit;" >Add</button>
             </form>
         </div>
     </div>
@@ -68,7 +82,7 @@ $("#close_overlay").click(function(e) {
     <a href="{% url 'sub-categories' cat.title%}">
             <div class="filter-items" id="sub-filter-items">
 
-            <div class="img_filter"><img src="{{cat.image}}" alt="{{ cat.name }}"></div>
+            <div class="img_filter"><img src="{{ MEDIA_ROOT }}{{cat.image.url}}" alt="{{ cat.name }}"></div>
 
             {% if request.user.perm.product.add_category %}
             {% endif %}
@@ -83,7 +97,7 @@ $("#close_overlay").click(function(e) {
      <a href="{% url 'products'%}?sub-category={{cat.title}}">
             <div class="filter-items" id="sub-filter-items">
 
-            <div class="img_filter"><img src="{{cat.image}}" alt="{{ cat.name }}"></div>
+            <div class="img_filter"><img src="{{cat.image.url}}" alt="{{ cat.name }}"></div>
 
             {% if request.user.perm.product.add_category %}
             {% endif %}
@@ -98,7 +112,7 @@ $("#close_overlay").click(function(e) {
     <a href="{% url 'products'%}?brand={{cat.name}}">
             <div class="filter-items" id="sub-filter-items">
 
-            <div class="img_filter"><img src="{{cat.image}}" alt="{{ cat.name }}"></div>
+            <div class="img_filter"><img src="{{cat.image.url}}" alt="{{ cat.name }}"></div>
 
             {% if request.user.perm.product.add_category %}
             {% endif %}
@@ -129,7 +143,7 @@ $("#close_overlay").click(function(e) {
 
                 {% if product.brand %}
                 
-                <div class="product-overlay-dialog-brand maxheight-setter"><img src="{{product.brand.image}}" alt="brand_name">
+                <div class="product-overlay-dialog-brand maxheight-setter"><img src="{{product.brand.image.url}}" alt="brand_name">
                 </div>
                 {% endif %}
                 
@@ -144,7 +158,7 @@ $("#close_overlay").click(function(e) {
                         
                         {% for image in product.my_images %}
                         <div class="box">
-                            <img src="{{image.image}}">
+                            <img src="{{image.image.url}}">
                             <span> {{image.name}} </span>
                         </div>
 
@@ -181,7 +195,7 @@ $("#close_overlay").click(function(e) {
 
         <!-- product item -->
 
-        <div class="product-image"><img src="{{product.image}}" alt="brand_name">
+        <div class="product-image"><img src="{{product.image.url}}" alt="brand_name">
             <hr class="style-1">
         </div>
 

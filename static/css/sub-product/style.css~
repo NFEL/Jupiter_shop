@@ -1,6 +1,6 @@
 @font-face {
   font-family: fontawsome;
-  src: url("fa-regular-400.ttf");
+  src: url("static/fontawesome/webfonts/fa-regular-400.ttf");
 }
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');

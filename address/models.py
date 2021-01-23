@@ -1,5 +1,6 @@
 import abc
-from django.contrib.gis.db import models
+# from django.contrib.gis.db import models
+from django.db import models
 from django.contrib.auth import get_user_model
 
 from store.models import Store
@@ -8,7 +9,8 @@ User = get_user_model()
 
 class AddressAbstract(models.Model):
 
-    location = models.PointField('موقعیت جغرافیایی', geography=True)
+    # location = models.PointField('موقعیت جغرافیایی', geography=True)
+    location = models.CharField(max_length=50)
     address_detail = models.TextField(blank=True, null=True)
 
     poste_code = models.CharField(

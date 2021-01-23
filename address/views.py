@@ -1,7 +1,6 @@
 import sys
 import folium
 from django.shortcuts import render, get_object_or_404
-from django.contrib.gis.geos import Point
 from django.http import HttpResponseBadRequest
 
 from geopy import distance as dis

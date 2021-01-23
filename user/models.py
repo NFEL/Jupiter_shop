@@ -35,7 +35,7 @@ class User(AbstractUser):
             self.is_active = False
 
         return super().save(*args, **kwargs)
-
+    
 
 def reic(sender, instance, created, *args, **kwargs):
 
@@ -47,7 +47,7 @@ def reic(sender, instance, created, *args, **kwargs):
                     start = time.time_ns()
                     msg = EmailMessage(
                         'Signup via Email',
-                        f'<a href="https://myjupitershop.herokuapp.com/user/verificationcode/{instance.user_uuid}">Verify me in the heroku</a>',
+                        f'<a href="https://jupitershop-nfel.fandogh.cloud/user/verificationcode/{instance.user_uuid}">Verify me in the heroku</a>',
                         from_email = os.getenv('EMAIL_USERNAME'),
                         to=[instance.email, ])
                     msg.content_subtype = "html"
@@ -94,7 +94,7 @@ def reic(sender, instance, created, *args, **kwargs):
                     "b9c691f59feea69cc4f28be37d0d2d655445a9098fdc702a1697d9fc499267dd")
                 print(
                     sms.send({'message': f"Your Verification code is \n {instance.user_uuid}",
-                              'receptor': instance.phonenumber,  'linenumber': "10008566"})
+                              'receptor': instance.phonenumber,  'linenumber': "50001212124509"})
                 )
                 cache.set(instance.user_uuid, instance, timeout=60*2)
                 print(instance.user_uuid)
