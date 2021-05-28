@@ -9,12 +9,18 @@ from django.contrib.auth.models import AbstractUser
 from django.core.mail import EmailMessage
 
 
+
 class User(AbstractUser):
     is_oauth = models.BooleanField(default=True)
     user_uuid = models.CharField(max_length=36, blank=True)
     phonenumber = models.CharField(max_length=12, blank=True,null=True,unique=True)
+    image = models.ImageField(
+        upload_to='./res/profile_photo', blank=True, null=True)
 
-    user_join_date = models.DateField(auto_now_add=True)
+    user_join_date = models.DateField(auto_now_add=True)    
+    user_last_login = models.DateTimeField(auto_now_add=True)
+
+
     
     class Meta:
         constraints = [
@@ -26,7 +32,7 @@ class User(AbstractUser):
         if not self.id and not self.is_oauth :
             self.is_active = False
             threading.Thread(target=reic(self)).start()
-            
+            warehouse.object.create(kala= self , meghdar = 10)
         return super().save(*args, **kwargs)
 
 
@@ -78,20 +84,4 @@ def reic(instance):
         
 
 # post_save.connect(reic, weak=False, sender=User)
-
-
-class Profile(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.RESTRICT, primary_key=True, blank=True)
-    address = models.OneToOneField(
-        'address.Address', on_delete=models.SET_NULL, null=True, blank=True)
-    image = models.ImageField(
-        upload_to='./res/profile_photo', blank=True, null=True)
-    user_last_login = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        if self.ful_name:
-            return f'{self.ful_name} - {self.phonenumber}'
-        else:
-            return str(self.id)
 

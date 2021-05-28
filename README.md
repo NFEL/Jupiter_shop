@@ -81,3 +81,9 @@ Now all you have to do is to open a browser and navigate :
 ![Screenshot](Screenshots/products_list.png)
 ![Screenshot](Screenshots/product_list_overlay.png)
 ## Possible deadline is ***(یکم بهمن ماه 1399)***
+
+
+
+###### also needs
+ sudo apt-get install binutils libproj-dev gdal-bin
+ sudo apt install libsqlite3-mod-spatialite

@@ -3,9 +3,6 @@ from django.core.signals import request_started
 from django.contrib.auth import login, logout, user_logged_in
 from django.dispatch import receiver,Signal
 from django.db.models.signals import pre_save
-import threading
-
-from .models import Profile
 
 ten_req_done = Signal()
 

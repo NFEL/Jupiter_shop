@@ -1,6 +1,5 @@
 from django.db import models
 
-from user.models import Profile
 from product.models import Category, SubCategory
 from address.models import Address
 

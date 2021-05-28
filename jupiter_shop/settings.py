@@ -36,6 +36,15 @@ CACHES = {
     }
 }
 
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (32.24997445586331, 53.61328125000001),
+'DEFAULT_ZOOM': 5,
+'MIN_ZOOM': 3,
+'MAX_ZOOM': 18,
+'DEFAULT_PRECISION': 6,
+}
+
+
 # CACHES = {
 #     "default": {
 #         "BACKEND": "django_redis.cache.RedisCache",
@@ -99,6 +108,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'leaflet',
 ]
 
 MIDDLEWARE = [
@@ -222,9 +232,21 @@ WSGI_APPLICATION = 'jupiter_shop.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.contrib.gis.db.backends.spatialite',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # },
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'mohi',
+        'USER': 'nfel',
+        'PASSWORD': '1',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 

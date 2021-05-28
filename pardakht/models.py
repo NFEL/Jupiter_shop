@@ -10,13 +10,6 @@ class Cart(models.Model):
     product = models.ManyToManyField(Product,through='CartItems')
     user = models.OneToOneField(User, on_delete = models.CASCADE)
 
-    # def my_price(self):
-    #     # total = 0
-    #     # items = self.cartitems_set.all()
-    #     # for item in items:
-    #     #     total += self.my_price()
-    #     return 0
-    
     
     # @property
     def my_price(self):
@@ -26,9 +19,6 @@ class Cart(models.Model):
             sum_food_prices += (elm.product.my_price() * elm.qty)
         return sum_food_prices
     
-        
-        # return self.cartitems_set.all().aggregate(Sum('myprice'))
-        
     def __str__(self):
         return str(self.user)
 
@@ -63,6 +53,7 @@ class Social(models.Model):
 
 
 class Purchases(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user = models.ForeignKey(User,on_delete=models.CASCADE)
     # user = models.ManyToManyField(User)
     description = models.JSONField('ایتم های خریداری شده')

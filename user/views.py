@@ -9,8 +9,16 @@ from allauth.account.views import logout
 from django.contrib import messages
 from django.core.cache import cache
 from django.db.utils import IntegrityError
+from django.views.generic import UpdateView 
+
+from address.models import Address
+from pardakht.models import Purchases
+from address.forms import UserLocationMarker
 
 User = auth.get_user_model()
+
+
+
 
 
 class UserVerification(View):
@@ -167,11 +175,21 @@ class UserVerification(View):
         return False
 
 
-class UserProfile(View):
-
+class UserProfile(UpdateView):
+    model = User
+    fields = ['user']
+    template_name = 'user_profile.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        purchases = Purchases.objects.filter(user = self.request.user)
+        context['purchases'] = purchases
+        context['location-form'] = UserLocationMarker()
+        return context 
+    
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return HttpResponse('OK')
+            return super().get(request, *args, **kwargs)
         else:
             return redirect('user-login')
 
